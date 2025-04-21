@@ -1,19 +1,31 @@
-/**
- * Import function triggers from their respective submodules:
- *
- * import {onCall} from "firebase-functions/v2/https";
- * import {onDocumentWritten} from "firebase-functions/v2/firestore";
- *
- * See a full list of supported triggers at https://firebase.google.com/docs/functions
- */
+import { onRequest } from 'firebase-functions/v2/https';
+import { app } from './app';
 
-import {onRequest} from "firebase-functions/v2/https";
-import * as logger from "firebase-functions/logger";
+// Auth
+import { authenticate } from './middleware/authentication';
 
-// Start writing functions
-// https://firebase.google.com/docs/functions/typescript
+// Users
+import { createUser } from './api/users/create-user';
+import { getAuthenticatedUser } from './api/users/get-authenticated-user';
+import { getUsers } from './api/users/get-users';
+import { getUser } from './api/users/get-user';
+import { putUser } from './api/users/put-user';
 
-// export const helloWorld = onRequest((request, response) => {
-//   logger.info("Hello logs!", {structuredData: true});
-//   response.send("Hello from Firebase!");
-// });
+// Items
+import { getItems } from './api/items/get-items';
+import { getItem } from './api/items/get-item';
+import { postItems } from './api/items/post-items';
+
+app.get('/users/authenticated-user', authenticate, getAuthenticatedUser);
+app.get('/users', getUsers);
+app.get('/users/:id', getUser);
+app.put('/users', putUser);
+
+// Items
+app.post('/items', authenticate, postItems);
+app.get('/items', getItems);
+app.get('/items/:id', getItem);
+
+exports.api = onRequest(app);
+
+exports.createUserRecord = createUser;
