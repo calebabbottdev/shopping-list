@@ -1,6 +1,5 @@
 function App() {
-  console.log(import.meta.env);
-  return <></>;
+  return <>{import.meta.env.VITE_API_BASE_URL}</>;
 }
 
 export default App;
