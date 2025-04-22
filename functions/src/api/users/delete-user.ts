@@ -1,7 +1,7 @@
 import * as functionsV1 from 'firebase-functions/v1';
 import { db } from '../../app';
 
-const deleteUser = functionsV1.auth.user().onDelete(async (user) => {
+export const deleteUser = functionsV1.auth.user().onDelete(async (user) => {
   const { uid } = user;
 
   try {
@@ -16,5 +16,3 @@ const deleteUser = functionsV1.auth.user().onDelete(async (user) => {
     console.error('Error deleting user:', error);
   }
 });
-
-export { deleteUser };

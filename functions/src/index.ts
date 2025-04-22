@@ -10,6 +10,7 @@ import { getAuthenticatedUser } from './api/users/get-authenticated-user';
 import { getUsers } from './api/users/get-users';
 import { getUser } from './api/users/get-user';
 import { putUser } from './api/users/put-user';
+import { deleteUser } from './api/users/delete-user';
 
 // Items
 import { getItems } from './api/items/get-items';
@@ -29,3 +30,4 @@ app.get('/items/:id', getItem);
 exports.api = onRequest(app);
 
 exports.createUserRecord = createUser;
+exports.deleteUserRecord = deleteUser;
