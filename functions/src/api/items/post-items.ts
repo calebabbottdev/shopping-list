@@ -14,7 +14,7 @@ interface AuthenticatedRequest extends Request {
 
 export const postItems = async (
   request: AuthenticatedRequest,
-  response: Response
+  response: Response,
 ): Promise<void> => {
   const { name, quantity } = request.body;
   const userId = request.user?.uid;
@@ -32,7 +32,8 @@ export const postItems = async (
 
     response.status(201).json({ id: item.id });
   } catch (error) {
-    console.error('Error creating trailer:', error);
-    response.status(500).json({ error: 'Unable to create trailer' });
+    console.log('error:', error);
+    console.error('Error creating item:', error);
+    response.status(500).json({ error: 'Unable to create item' });
   }
 };
