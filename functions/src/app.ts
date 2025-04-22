@@ -8,6 +8,7 @@ export const app = express();
 app.use(
   cors({
     origin: 'https://cha-shopping-list.web.app',
+    credentials: true,
   }),
 );
 
