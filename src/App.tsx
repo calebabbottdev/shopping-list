@@ -6,7 +6,6 @@ import { LoginForm } from './components/Login';
 import './app/auth-listener';
 
 function App() {
-  console.log(import.meta.env);
   return (
     <>
       <LoginForm />

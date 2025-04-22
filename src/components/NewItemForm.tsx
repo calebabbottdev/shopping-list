@@ -2,23 +2,23 @@ import { useState } from 'react';
 import { useCreateItemMutation } from '../features/items/items-api';
 
 export const NewItemForm = () => {
-  const [item, setItem] = useState('');
+  const [name, setName] = useState('');
   const [quantity, setQuantity] = useState('');
   const [createItem, { isLoading, isSuccess, error }] = useCreateItemMutation();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const number = Number(quantity);
-    await createItem({ item, quantity: number });
-    setItem('');
+    await createItem({ name, quantity: number });
+    setName('');
     setQuantity('');
   };
 
   return (
     <form onSubmit={handleSubmit}>
       <input
-        value={item}
-        onChange={(e) => setItem(e.target.value)}
+        value={name}
+        onChange={(e) => setName(e.target.value)}
         placeholder='Item name'
         required
       />

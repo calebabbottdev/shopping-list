@@ -5,7 +5,7 @@ import { auth } from '../../firebase/firebase';
 type Item = {
   id: string;
   addedBy: User;
-  item: string;
+  name: string;
   quantity: number;
 };
 
@@ -17,7 +17,6 @@ const baseQuery = fetchBaseQuery({
     if (user) {
       const token = await user.getIdToken();
       headers.set('authorization', `Bearer ${token}`);
-      console.log(token);
     }
 
     return headers;
