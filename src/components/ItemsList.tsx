@@ -10,7 +10,7 @@ export const ItemsList = () => {
     <ul>
       {data?.items?.map((item) => (
         <li key={item.id}>
-          {item.item} x{item.quantity}
+          {item.name} x{item.quantity}
         </li>
       ))}
     </ul>
