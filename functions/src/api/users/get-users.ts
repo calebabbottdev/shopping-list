@@ -6,11 +6,6 @@ export const getUsers = async (
   response: Response,
 ): Promise<void> => {
   try {
-    response.set(
-      'Access-Control-Allow-Origin',
-      'https://cha-shopping-list.web.app',
-    );
-
     const userDocsSnapshot = await db.collection('users').get();
 
     const users = userDocsSnapshot.docs.map((doc) => ({

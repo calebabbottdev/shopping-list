@@ -3,7 +3,8 @@ import admin from 'firebase-admin';
 import cors from 'cors';
 admin.initializeApp();
 
-export const app = express();
+const app = express();
+const db = admin.firestore();
 
 app.use(
   cors({
@@ -12,4 +13,7 @@ app.use(
   }),
 );
 
-export const db = admin.firestore();
+app.use(express.json());
+app.options('*', cors());
+
+export { app, db };
