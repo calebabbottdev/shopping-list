@@ -24,7 +24,7 @@ export const NewItemForm = () => {
       />
       <input
         value={quantity}
-        onChange={(e) => setItem(e.target.value)}
+        onChange={(e) => setQuantity(e.target.value)}
         placeholder='Quantity'
         required
       />
