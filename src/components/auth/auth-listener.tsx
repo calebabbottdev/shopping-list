@@ -1,8 +1,13 @@
+// React
 import React, { useEffect } from 'react';
+
+// Redux
 import { useDispatch } from 'react-redux';
+import { login, logout, setUser } from '../../features/auth/auth-slice';
+
+// Firebase
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../../firebase/firebase';
-import { setUser } from '../../features/auth/auth-slice';
 
 export const AuthListener: React.FC = () => {
   const dispatch = useDispatch();
@@ -13,8 +18,10 @@ export const AuthListener: React.FC = () => {
         dispatch(
           setUser({ email: user.email || '', name: user.displayName || '' }),
         );
+        dispatch(login());
       } else {
         dispatch(setUser(null));
+        dispatch(logout());
       }
     });
 

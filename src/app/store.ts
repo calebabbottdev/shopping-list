@@ -1,5 +1,10 @@
+// Redux
 import { configureStore } from '@reduxjs/toolkit';
+
+// Slices
 import authReducer from '../features/auth/auth-slice';
+
+// API Connections
 import { users } from '../features/users/users-api';
 import { items } from '../features/items/items-api';
 

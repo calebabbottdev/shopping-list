@@ -1,6 +1,7 @@
 import express from 'express';
 import admin from 'firebase-admin';
 import cors from 'cors';
+
 admin.initializeApp();
 
 const app = express();

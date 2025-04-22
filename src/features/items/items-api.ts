@@ -1,5 +1,10 @@
+// Redux
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+
+// API Connections
 import { User } from '../users/users-api';
+
+// Firebase
 import { auth } from '../../firebase/firebase';
 
 type Item = {

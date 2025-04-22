@@ -1,11 +1,14 @@
+// React
 import { useState } from 'react';
+
+// Firebase
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../firebase/firebase';
-import { useDispatch } from 'react-redux';
-import { login } from '../features/auth/auth-slice';
+
+// Layout
+import { Button } from './layout/button';
 
 export const LoginForm = () => {
-  const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -15,9 +18,8 @@ export const LoginForm = () => {
     setError('');
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      if (auth) dispatch(login());
-    } catch (err: any) {
-      setError(err.message);
+    } catch (error: any) {
+      setError(error.message);
     }
   };
 
@@ -37,7 +39,7 @@ export const LoginForm = () => {
         required
         onChange={(e) => setPassword(e.target.value)}
       />
-      <button type='submit'>Log In</button>
+      <Button text='Login' variant='contained' color='primary' type='submit' />
       {error && <p>{error}</p>}
     </form>
   );

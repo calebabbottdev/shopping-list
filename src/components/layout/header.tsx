@@ -1,6 +1,11 @@
+// React
 import React from 'react';
+
+// Redux
 import { useSelector } from 'react-redux';
-import { RootState } from '../../app/store'; // Your store's root state
+
+// App Store
+import { RootState } from '../../app/store';
 
 export const Header: React.FC = () => {
   const { user, isAuthenticated } = useSelector(
