@@ -8,9 +8,9 @@ export const getUsers = async (
   try {
     const userDocsSnapshot = await db.collection('users').get();
 
-    const users = userDocsSnapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
+    const users = userDocsSnapshot.docs.map((user) => ({
+      id: user.id,
+      ...user.data(),
     }));
 
     response.status(200).json({ users });
