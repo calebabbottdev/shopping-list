@@ -26,9 +26,11 @@ const baseQuery = fetchBaseQuery({
 export const items = createApi({
   reducerPath: 'items',
   baseQuery,
+  tagTypes: ['items'],
   endpoints: (builder) => ({
     getItems: builder.query<{ items: Item[] }, void>({
       query: () => '/items',
+      providesTags: ['items'],
     }),
     getItemById: builder.query<Item, string>({
       query: (id) => `/items/${id}`,
@@ -39,6 +41,7 @@ export const items = createApi({
         method: 'POST',
         body: item,
       }),
+      invalidatesTags: ['items'],
     }),
   }),
 });
