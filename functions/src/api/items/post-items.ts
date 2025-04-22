@@ -28,7 +28,7 @@ export const postItems = async (
 
     const item = await db
       .collection('items')
-      .add({ item: name, quantity, addedBy: user });
+      .add({ name, quantity, addedBy: user });
 
     response.status(201).json({ id: item.id });
   } catch (error) {
