@@ -19,9 +19,7 @@ import { RootState } from '../../app/store';
 import { Logout } from '../../components/Logout';
 
 const Navbar = (): React.JSX.Element => {
-  const { user, isAuthenticated } = useSelector(
-    (state: RootState) => state.auth,
-  );
+  const { isAuthenticated } = useSelector((state: RootState) => state.auth);
 
   return (
     <>

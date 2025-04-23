@@ -1,6 +1,5 @@
 // Components & Pages
 import Layout from '../app/layout/Layout';
-import Navbar from '../app/layout/Navbar';
 import Protected from '../app/components/auth/Protected';
 import Redirect from '../app/components/auth/Redirect';
 import Account from '../app/features/account/Account';
