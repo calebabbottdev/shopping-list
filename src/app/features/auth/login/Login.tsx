@@ -8,7 +8,7 @@ import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../../../utility/firebase';
 
 // Layout
-import { Button } from '../../../layout/Button';
+import Button from '../../../layout/Button';
 
 // React Hook Form
 import { useForm } from 'react-hook-form';
@@ -84,9 +84,7 @@ const Login = () => {
             variant='contained'
             color='primary'
             fullWidth
-          >
-            Login
-          </Button>
+          />
         </Grid>
       </Grid>
       {error !== null && <Box id='error'>{error}</Box>}

@@ -5,7 +5,7 @@ type CustomProps = {
   text: string;
 };
 
-export const Button: React.FC<CustomProps & ButtonProps> = ({
+const Button: React.FC<CustomProps & ButtonProps> = ({
   text,
   ...muiProps
 }): React.JSX.Element => {
@@ -15,3 +15,5 @@ export const Button: React.FC<CustomProps & ButtonProps> = ({
     </MUIButton>
   );
 };
+
+export default Button;
