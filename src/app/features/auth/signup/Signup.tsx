@@ -39,12 +39,13 @@ const Signup = () => {
 
     try {
       await createUserWithEmailAndPassword(auth, email, password);
-      await updateUserName({ name });
-
+      const thing = await updateUserName({ name }).unwrap();
+      alert(thing);
       setError(null);
     } catch (error: any) {
       console.error('Signup error:', error);
       setError(error.message);
+      alert(error);
     }
   };
 
