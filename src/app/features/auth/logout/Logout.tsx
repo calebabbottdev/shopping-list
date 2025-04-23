@@ -6,7 +6,7 @@ import { signOut } from 'firebase/auth';
 import { auth } from '../../../../utility/firebase';
 
 // Layout
-import Button from '../../../layout/Button';
+import Button from '../../../layout-temp/Button';
 
 const Logout = (): React.JSX.Element => {
   const handleLogout = async (): Promise<void> => {
