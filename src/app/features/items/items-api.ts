@@ -48,8 +48,19 @@ export const items = createApi({
       }),
       invalidatesTags: ['items'],
     }),
+    deleteItem: builder.mutation<Item, string>({
+      query: (id) => ({
+        url: `/items/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['items'],
+    }),
   }),
 });
 
-export const { useGetItemsQuery, useGetItemByIdQuery, useCreateItemMutation } =
-  items;
+export const {
+  useGetItemsQuery,
+  useGetItemByIdQuery,
+  useCreateItemMutation,
+  useDeleteItemMutation,
+} = items;

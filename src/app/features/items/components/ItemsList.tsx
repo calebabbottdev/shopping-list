@@ -20,6 +20,7 @@ import {
   Select,
   SelectChangeEvent,
 } from '@mui/material';
+import ItemDialog from './ItemDialog';
 
 export const ItemsList = (): React.JSX.Element => {
   const {
@@ -30,6 +31,8 @@ export const ItemsList = (): React.JSX.Element => {
   const { data: user, isSuccess: userLoaded } = useGetAuthenticatedUserQuery();
 
   const [selectedUserId, setSelectedUserId] = useState<string>('all');
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
 
   useEffect(() => {
     if (userLoaded && user?.id && selectedUserId === 'all') {
@@ -39,6 +42,16 @@ export const ItemsList = (): React.JSX.Element => {
 
   const handleUserChange = (event: SelectChangeEvent) => {
     setSelectedUserId(event.target.value);
+  };
+
+  const handleOpenDialog = (itemId: string): void => {
+    setSelectedItemId(itemId);
+    setDialogOpen(true);
+  };
+
+  const handleCloseDialog = (): void => {
+    setDialogOpen(false);
+    setSelectedItemId(null);
   };
 
   const uniqueUserIds = Array.from(
@@ -90,7 +103,12 @@ export const ItemsList = (): React.JSX.Element => {
 
       <List>
         {filteredItems?.map((item) => (
-          <ListItem key={item.id} divider>
+          <ListItem
+            key={item.id}
+            divider
+            component='button'
+            onClick={() => handleOpenDialog(item.id)}
+          >
             <ListItemText
               primary={item.name}
               secondary={`Quantity: ${item.quantity} • ${
@@ -102,6 +120,14 @@ export const ItemsList = (): React.JSX.Element => {
           </ListItem>
         ))}
       </List>
+
+      {selectedItemId && (
+        <ItemDialog
+          id={selectedItemId}
+          open={dialogOpen}
+          onClose={handleCloseDialog}
+        />
+      )}
     </Container>
   );
 };

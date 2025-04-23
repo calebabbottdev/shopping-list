@@ -27,7 +27,7 @@ app.put('/users', putUser);
 app.post('/items', authenticate, postItems);
 app.get('/items', getItems);
 app.get('/items/:id', getItem);
-app.delete('/item/:id', authenticate, deleteItem);
+app.delete('/items/:id', authenticate, deleteItem);
 
 exports.api = onRequest(app);
 
