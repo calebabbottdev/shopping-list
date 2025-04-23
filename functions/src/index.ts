@@ -16,6 +16,7 @@ import { deleteUser } from './api/users/delete-user';
 import { getItems } from './api/items/get-items';
 import { getItem } from './api/items/get-item';
 import { postItems } from './api/items/post-items';
+import { deleteItem } from './api/items/delete-item';
 
 app.get('/users/authenticated-user', authenticate, getAuthenticatedUser);
 app.get('/users', getUsers);
@@ -26,6 +27,7 @@ app.put('/users', putUser);
 app.post('/items', authenticate, postItems);
 app.get('/items', getItems);
 app.get('/items/:id', getItem);
+app.delete('/item/:id', authenticate, deleteItem);
 
 exports.api = onRequest(app);
 
