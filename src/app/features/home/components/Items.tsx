@@ -1,5 +1,3 @@
-import * as React from 'react';
-
 import { useGetItemsQuery } from '../../../../app/features/items/items-api';
 
 // MUI

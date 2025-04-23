@@ -1,19 +1,16 @@
 import { useState } from 'react';
 
 // MUI
-import {
-  Box,
-  Button,
-  Container,
-  Grid,
-  TextField,
-  Typography,
-} from '@mui/material';
+import { Box, Container, Grid, TextField, Typography } from '@mui/material';
 
 // Firebase
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../../../utility/firebase';
 
+// Layout
+import { Button } from '../../../layout/Button';
+
+// React Hook Form
 import { useForm } from 'react-hook-form';
 
 type UserData = {
@@ -82,6 +79,7 @@ const Login = () => {
         <Grid size={12}>
           <Button
             id='login-button'
+            text='Login'
             type='submit'
             variant='contained'
             color='primary'

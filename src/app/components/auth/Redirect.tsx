@@ -1,5 +1,3 @@
-import * as React from 'react';
-
 // Redux
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../app/store';

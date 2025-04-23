@@ -1,13 +1,5 @@
-import * as React from 'react';
-
 // MUI
-import { AppBar, Button, Container, Toolbar } from '@mui/material';
-
-// React Router
-import { Link } from 'react-router-dom';
-
-// Routes
-import { route } from '../../routes/routes';
+import { AppBar, Box, Container, Toolbar } from '@mui/material';
 
 // Redux
 import { useSelector } from 'react-redux';
@@ -16,7 +8,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../app/store';
 
 // Components
-import { Logout } from '../../components/Logout';
+import Logout from '../features/auth/logout/Logout';
 
 const Navbar = (): React.JSX.Element => {
   const { isAuthenticated } = useSelector((state: RootState) => state.auth);
@@ -26,31 +18,14 @@ const Navbar = (): React.JSX.Element => {
       <AppBar
         position='static'
         color='inherit'
-        sx={{ height: '75px', boxShadow: 'none', justifyContent: 'center' }}
+        sx={{ boxShadow: 'none', justifyContent: 'center' }}
       >
         <Container maxWidth='xl'>
-          <Toolbar>
-            {isAuthenticated ? (
-              <>
-                <Button
-                  color='inherit'
-                  component={Link}
-                  to={route.home}
-                  sx={{ mr: 'auto' }}
-                >
-                  Home
-                </Button>
+          <Toolbar sx={{ ml: 'auto' }}>
+            {isAuthenticated && (
+              <Box ml='auto'>
                 <Logout />
-              </>
-            ) : (
-              <>
-                <Button color='inherit' component={Link} to={route.login}>
-                  Login
-                </Button>
-                <Button color='inherit' component={Link} to={route.signup}>
-                  Signup
-                </Button>
-              </>
+              </Box>
             )}
           </Toolbar>
         </Container>

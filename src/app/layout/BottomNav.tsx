@@ -1,4 +1,9 @@
-import { useState } from 'react';
+import { JSX, useState } from 'react';
+
+// Components
+import AddItem from '../features/items/components/AddItem';
+
+// React Router DOM
 import { useNavigate } from 'react-router-dom';
 
 // MUI
@@ -17,11 +22,13 @@ import {
 // Routes
 import { route } from '../../routes/routes';
 
-const BottomNav = () => {
+const BottomNav = (): JSX.Element => {
   const [value, setValue] = useState(0);
+  const [dialogOpen, setDialogOpen] = useState(false);
+
   const navigate = useNavigate();
 
-  const handleNavigation = (newValue: number) => {
+  const handleNavigation = (newValue: number): void => {
     setValue(newValue);
 
     switch (newValue) {
@@ -34,8 +41,12 @@ const BottomNav = () => {
     }
   };
 
-  const handleFabClick = () => {
-    console.log('hello world');
+  const handleFabClick = (): void => {
+    setDialogOpen(true);
+  };
+
+  const handleCloseDialog = (): void => {
+    setDialogOpen(false);
   };
 
   return (
@@ -73,6 +84,8 @@ const BottomNav = () => {
       >
         <AddIcon />
       </Fab>
+
+      <AddItem open={dialogOpen} onClose={handleCloseDialog} />
     </>
   );
 };

@@ -3,13 +3,13 @@ import React from 'react';
 
 // Firebase
 import { signOut } from 'firebase/auth';
-import { auth } from '../utility/firebase';
+import { auth } from '../../../../utility/firebase';
 
 // Layout
-import { Button } from '../app/layout/button';
+import { Button } from '../../../layout/Button';
 
-export const Logout: React.FC = () => {
-  const handleLogout = async () => {
+const Logout = (): React.JSX.Element => {
+  const handleLogout = async (): Promise<void> => {
     try {
       await signOut(auth);
     } catch (error) {
@@ -26,3 +26,5 @@ export const Logout: React.FC = () => {
     />
   );
 };
+
+export default Logout;
