@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 // API Connections
 import { useGetItemsQuery } from '../../../../app/features/items/items-api';
@@ -27,11 +27,15 @@ export const ItemsList = (): React.JSX.Element => {
     isLoading: isItemsLoading,
     error: itemsError,
   } = useGetItemsQuery();
-  const { data: user } = useGetAuthenticatedUserQuery();
+  const { data: user, isSuccess: userLoaded } = useGetAuthenticatedUserQuery();
 
-  const [selectedUserId, setSelectedUserId] = useState<string>(
-    user?.id || 'all'
-  );
+  const [selectedUserId, setSelectedUserId] = useState<string>('all');
+
+  useEffect(() => {
+    if (userLoaded && user?.id && selectedUserId === 'all') {
+      setSelectedUserId(user.id);
+    }
+  }, [userLoaded, user?.id]);
 
   const handleUserChange = (event: SelectChangeEvent) => {
     setSelectedUserId(event.target.value);
@@ -78,7 +82,7 @@ export const ItemsList = (): React.JSX.Element => {
           <MenuItem value='all'>All users</MenuItem>
           {uniqueUserIds.map((id) => (
             <MenuItem key={id} value={id}>
-              User ID: {id}
+              {id === user?.id ? 'Me' : `User ID: ${id}`}
             </MenuItem>
           ))}
         </Select>
@@ -89,7 +93,11 @@ export const ItemsList = (): React.JSX.Element => {
           <ListItem key={item.id} divider>
             <ListItemText
               primary={item.name}
-              secondary={`Quantity: ${item.quantity} • User ID: ${item.addedBy.id}`}
+              secondary={`Quantity: ${item.quantity} • ${
+                item.addedBy.id === user?.id
+                  ? 'Me'
+                  : `User ID: ${item.addedBy.id}`
+              }`}
             />
           </ListItem>
         ))}
