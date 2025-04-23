@@ -9,8 +9,15 @@ const Account = () => {
   return (
     <>
       <p>Account</p>
-      {isLoading ? <p>Loading...</p> : data}
-      {error && <p>An error occured!</p>}
+      {isLoading && <p>Loading...</p>}
+      {error && <p>An error occurred!</p>}
+      {data && (
+        <div>
+          <p>ID: {data.id}</p>
+          <p>Email: {data.email}</p>
+          <p>Created At: {data.createdAt}</p>
+        </div>
+      )}
     </>
   );
 };
