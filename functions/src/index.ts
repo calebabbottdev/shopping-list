@@ -23,7 +23,7 @@ app.get('/users/authenticated-user', authenticate, getAuthenticatedUser);
 app.get('/users', getUsers);
 app.get('/users/:id', getUser);
 app.put('/users', putUser);
-app.patch('/users/:id/user-name', authenticate, patchUserName);
+app.patch('/users/authenticated-user/user-name', authenticate, patchUserName);
 
 // Items
 app.post('/items', authenticate, postItems);

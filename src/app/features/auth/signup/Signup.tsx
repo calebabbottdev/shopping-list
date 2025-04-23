@@ -38,14 +38,8 @@ const Signup = () => {
     const { name, email, password } = data;
 
     try {
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      const uid = userCredential.user.uid;
-
-      await updateUserName({ id: uid, name });
+      await createUserWithEmailAndPassword(auth, email, password);
+      await updateUserName({ name });
 
       setError(null);
     } catch (error: any) {

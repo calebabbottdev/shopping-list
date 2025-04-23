@@ -17,15 +17,16 @@ export const patchUserName = async (
   response: Response
 ): Promise<void> => {
   const { name } = request.body;
-  const userId = request.user?.uid;
 
-  if (!userId) {
-    response.status(401).json({ error: 'Unauthorized: No user ID found' });
+  if (!request.user) {
+    response.status(401).json({ error: 'Unauthorized' });
+    return;
   }
 
-  try {
-    await db.collection('users').doc(userId!).update({ name });
+  const targetUserId = request.user.uid;
 
+  try {
+    await db.collection('users').doc(targetUserId).update({ name });
     response.status(200).json({ message: 'User updated successfully' });
   } catch (error) {
     response.status(500).json({ error: 'Unable to update user' });
