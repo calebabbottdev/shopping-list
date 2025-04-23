@@ -38,9 +38,9 @@ export const users = createApi({
     getAuthenticatedUser: builder.query<User, void>({
       query: () => `users/authenticated-user`,
     }),
-    updateUserName: builder.mutation<User, { name: string }>({
-      query: ({ name }) => ({
-        url: '/users/authenticated-user/user-name',
+    updateUserName: builder.mutation<User, { id: string; name: string }>({
+      query: ({ id, name }) => ({
+        url: `/users/${id}/name`,
         method: 'PATCH',
         body: { name },
       }),

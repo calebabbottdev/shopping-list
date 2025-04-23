@@ -38,14 +38,16 @@ const Signup = () => {
     const { name, email, password } = data;
 
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
-      const thing = await updateUserName({ name }).unwrap();
-      alert(thing);
+      const {
+        user: { uid },
+      } = await createUserWithEmailAndPassword(auth, email, password);
+
+      await updateUserName({ id: uid, name });
+
       setError(null);
     } catch (error: any) {
       console.error('Signup error:', error);
       setError(error.message);
-      alert(error);
     }
   };
 
