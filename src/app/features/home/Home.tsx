@@ -1,10 +1,10 @@
 // Components
-import { Items } from './components/Items';
+import { ItemsList } from '../items/components/ItemsList';
 
 const Home = () => {
   return (
     <>
-      <Items />
+      <ItemsList />
     </>
   );
 };

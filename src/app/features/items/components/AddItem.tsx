@@ -45,12 +45,11 @@ const AddItem = ({ open, onClose }: AddItemProps): JSX.Element => {
     const { name, quantity } = data;
 
     try {
-      await createItem({ name, quantity });
-    } catch (error: any) {
-      setError(itemError!.toString());
+      await createItem({ name, quantity }).unwrap();
+      onClose();
+    } catch (err: any) {
+      setError(err?.message || 'Something went wrong');
     }
-
-    if (isSuccess) onClose();
   };
 
   return (
