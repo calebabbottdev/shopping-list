@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { db } from '../../app';
 
-export const patchUserName = async (
+export const patchName = async (
   request: Request,
   response: Response
 ): Promise<void> => {
