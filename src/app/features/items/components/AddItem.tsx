@@ -32,8 +32,7 @@ type ItemData = {
 const AddItem = ({ open, onClose }: AddItemProps): JSX.Element => {
   const [error, setError] = useState<string | null>(null);
 
-  const [createItem, { isLoading, isSuccess, error: itemError }] =
-    useCreateItemMutation();
+  const [createItem, { isLoading }] = useCreateItemMutation();
 
   const {
     register,
@@ -47,8 +46,8 @@ const AddItem = ({ open, onClose }: AddItemProps): JSX.Element => {
     try {
       await createItem({ name, quantity }).unwrap();
       onClose();
-    } catch (err: any) {
-      setError(err?.message || 'Something went wrong');
+    } catch (error: any) {
+      setError(error?.message || 'Something went wrong');
     }
   };
 
