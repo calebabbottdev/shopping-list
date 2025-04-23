@@ -8,7 +8,7 @@ import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../../../utility/firebase';
 
 // Layout
-import Button from '../../../layout/Button';
+import { Button } from '../../../layout/Button-renamed';
 
 // React Hook Form
 import { useForm } from 'react-hook-form';

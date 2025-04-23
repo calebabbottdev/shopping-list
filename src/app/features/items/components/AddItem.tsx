@@ -15,9 +15,9 @@ import { useCreateItemMutation } from '../../../../app/features/items/items-api'
 
 // React Hook Form
 import { useForm } from 'react-hook-form';
-import Button from '../../../layout/Button';
 
 // Layout
+import { Button } from '../../../layout/Button-renamed';
 
 type AddItemProps = {
   open: boolean;
