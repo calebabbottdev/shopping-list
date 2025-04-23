@@ -103,7 +103,7 @@ export const ItemsList = (): React.JSX.Element => {
           <MenuItem value='all'>All users</MenuItem>
           {users?.users.map((user) => (
             <MenuItem key={user.id} value={user.id}>
-              {user.id === authenticatedUser?.id ? 'Me' : `User: ${user.name}`}
+              {user.id === authenticatedUser?.id ? 'Me' : `${user.name}`}
             </MenuItem>
           ))}
         </Select>
@@ -122,7 +122,7 @@ export const ItemsList = (): React.JSX.Element => {
               secondary={`Quantity: ${item.quantity} • ${
                 item.addedBy.id === authenticatedUser?.id
                   ? 'Me'
-                  : `User: ${item.addedBy.name}`
+                  : `${item.addedBy.name}`
               }`}
             />
           </ListItem>
