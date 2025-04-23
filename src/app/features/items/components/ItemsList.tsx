@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 // API Connections
 import { useGetItemsQuery } from '../../../../app/features/items/items-api';
+import { useGetAuthenticatedUserQuery } from '../../users/users-api';
 
 // MUI
 import {
@@ -21,30 +22,38 @@ import {
 } from '@mui/material';
 
 export const ItemsList = (): React.JSX.Element => {
-  const { data, isLoading, error } = useGetItemsQuery();
-  const [selectedUserId, setSelectedUserId] = useState<string>('all');
+  const {
+    data: items,
+    isLoading: isItemsLoading,
+    error: itemsError,
+  } = useGetItemsQuery();
+  const { data: user } = useGetAuthenticatedUserQuery();
+
+  const [selectedUserId, setSelectedUserId] = useState<string>(
+    user?.id || 'all'
+  );
 
   const handleUserChange = (event: SelectChangeEvent) => {
     setSelectedUserId(event.target.value);
   };
 
   const uniqueUserIds = Array.from(
-    new Set(data?.items?.map((item) => item.addedBy.id))
+    new Set(items?.items?.map((item) => item.addedBy.id))
   );
 
   const filteredItems =
     selectedUserId === 'all'
-      ? data?.items
-      : data?.items?.filter((item) => item.addedBy.id === selectedUserId);
+      ? items?.items
+      : items?.items?.filter((item) => item.addedBy.id === selectedUserId);
 
-  if (isLoading)
+  if (isItemsLoading)
     return (
       <Box display='flex' justifyContent='center' mt={4}>
         <CircularProgress />
       </Box>
     );
 
-  if (error)
+  if (itemsError)
     return (
       <Container maxWidth='sm'>
         <Alert severity='error'>Error loading items</Alert>
