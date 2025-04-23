@@ -12,7 +12,7 @@ interface AuthenticatedRequest extends Request {
   };
 }
 
-export const putUser = async (
+export const patchUserName = async (
   request: AuthenticatedRequest,
   response: Response
 ): Promise<void> => {

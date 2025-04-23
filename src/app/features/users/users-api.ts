@@ -7,6 +7,7 @@ import { auth } from '../../../utility/firebase';
 export type User = {
   id: string;
   email: string;
+  name: string;
   createdAt: string;
 };
 
@@ -37,6 +38,13 @@ export const users = createApi({
     getAuthenticatedUser: builder.query<User, void>({
       query: () => `users/authenticated-user`,
     }),
+    updateUserName: builder.mutation<User, { id: string; name: string }>({
+      query: (id) => ({
+        url: `/users/${id}/user-name`,
+        method: 'PATCH',
+        body: { name },
+      }),
+    }),
   }),
 });
 
@@ -44,4 +52,5 @@ export const {
   useGetUsersQuery,
   useGetUserByIdQuery,
   useGetAuthenticatedUserQuery,
+  useUpdateUserNameMutation,
 } = users;

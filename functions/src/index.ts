@@ -10,6 +10,7 @@ import { getAuthenticatedUser } from './api/users/get-authenticated-user';
 import { getUsers } from './api/users/get-users';
 import { getUser } from './api/users/get-user';
 import { putUser } from './api/users/put-user';
+import { patchUserName } from './api/users/patch-user-name';
 import { deleteUser } from './api/users/delete-user';
 
 // Items
@@ -22,6 +23,7 @@ app.get('/users/authenticated-user', authenticate, getAuthenticatedUser);
 app.get('/users', getUsers);
 app.get('/users/:id', getUser);
 app.put('/users', putUser);
+app.patch('/users/:id/user-name', authenticate, patchUserName);
 
 // Items
 app.post('/items', authenticate, postItems);

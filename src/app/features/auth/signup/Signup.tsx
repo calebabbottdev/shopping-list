@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Box, Container, Grid, TextField, Typography } from '@mui/material';
 
 // Firebase
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../../../utility/firebase';
 
 // Layout
@@ -12,34 +12,50 @@ import { Button } from '../../../layout/Button';
 
 // React Hook Form
 import { useForm } from 'react-hook-form';
+
+// API Connections
+import { useUpdateUserNameMutation } from '../../users/users-api';
 import { route } from '../../../../routes/routes';
 
-type UserData = {
+type SignUpData = {
+  name: string;
   email: string;
   password: string;
 };
 
-const Login = () => {
+const Signup = () => {
+  const [updateUserName, { isLoading }] = useUpdateUserNameMutation();
+
   const [error, setError] = useState<string | null>(null);
 
   const {
     register,
     formState: { errors },
     handleSubmit,
-  } = useForm<UserData>();
+  } = useForm<SignUpData>();
 
-  const onSubmit = async (data: UserData) => {
-    const { email, password } = data;
+  const onSubmit = async (data: SignUpData) => {
+    const { name, email, password } = data;
 
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const uid = userCredential.user.uid;
+
+      await updateUserName({ id: uid, name });
+
+      setError(null);
     } catch (error: any) {
+      console.error('Signup error:', error);
       setError(error.message);
     }
   };
 
   return (
-    <Container id='login-container' maxWidth='sm' sx={{ mt: 5 }}>
+    <Container id='signup-container' maxWidth='sm' sx={{ mt: 5 }}>
       <Grid
         container
         spacing={3}
@@ -48,12 +64,23 @@ const Login = () => {
       >
         <Grid size={12}>
           <Typography variant='h2' align='center'>
-            Login
+            Signup
           </Typography>
         </Grid>
         <Grid size={12}>
           <TextField
-            id='email-address-input'
+            id='name-input'
+            label='Name'
+            variant='outlined'
+            fullWidth
+            {...register('name', { required: true })}
+            error={errors.name?.type === 'required'}
+            helperText={errors.name?.type === 'required' && 'Name is required'}
+          />
+        </Grid>
+        <Grid size={12}>
+          <TextField
+            id='email-input'
             label='Email'
             variant='outlined'
             fullWidth
@@ -70,6 +97,7 @@ const Login = () => {
             label='Password'
             variant='outlined'
             fullWidth
+            type='password'
             {...register('password', { required: true })}
             error={errors.password?.type === 'required'}
             helperText={
@@ -79,27 +107,33 @@ const Login = () => {
         </Grid>
         <Grid size={12}>
           <Button
-            id='login-button'
-            text='Login'
+            id='signup-button'
+            text='Sign Up'
             type='submit'
             variant='contained'
             color='primary'
+            disabled={isLoading}
             fullWidth
           />
         </Grid>
       </Grid>
-      {error !== null && <Box id='error'>{error}</Box>}
+      {error && (
+        <Box id='error' mt={2}>
+          <Typography color='error'>{error}</Typography>
+        </Box>
+      )}
+
       <Typography variant='body2' align='center' sx={{ mt: 2 }}>
-        Don&apos;t have an account?{' '}
+        Already have an account?{' '}
         <a
-          href={route.signup}
+          href={route.login}
           style={{ color: '#1976d2', textDecoration: 'none' }}
         >
-          Sign up here
+          Login here
         </a>
       </Typography>
     </Container>
   );
 };
 
-export default Login;
+export default Signup;

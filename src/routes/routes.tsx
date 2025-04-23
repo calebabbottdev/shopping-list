@@ -1,17 +1,33 @@
+import React, { Suspense } from 'react';
+
+// MUI
+import { CircularProgress, Box } from '@mui/material';
+
 // Components & Pages
 import Layout from '../app/layout/Layout';
 import Protected from '../app/components/auth/Protected';
 import Redirect from '../app/components/auth/Redirect';
 import Account from '../app/features/account/Account';
 import Home from '../app/features/home/Home';
-import Login from '../app/features/auth/login/Login';
 
 // React Router
 import { createBrowserRouter } from 'react-router-dom';
 
-// Routes
-// import Error from '@features/error/Error';
-// import Signup from '@features/auth/signup/Signup';
+const Login = React.lazy(() => import('../app/features/auth/login/Login'));
+const Signup = React.lazy(() => import('../app/features/auth/signup/Signup'));
+
+const loader = () => {
+  return (
+    <Box
+      display='flex'
+      justifyContent='center'
+      alignItems='center'
+      minHeight='100vh'
+    >
+      <CircularProgress />
+    </Box>
+  );
+};
 
 export enum route {
   home = '/',
@@ -50,7 +66,9 @@ export const router = createBrowserRouter([
     path: route.login,
     element: (
       <Redirect>
-        <Login />
+        <Suspense fallback={loader()}>
+          <Login />
+        </Suspense>
       </Redirect>
     ),
   },
@@ -58,7 +76,9 @@ export const router = createBrowserRouter([
     path: route.signup,
     element: (
       <Redirect>
-        <Home />
+        <Suspense fallback={loader()}>
+          <Signup />
+        </Suspense>
       </Redirect>
     ),
   },
