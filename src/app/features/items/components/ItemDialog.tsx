@@ -82,12 +82,12 @@ const ItemDialog = ({
               </Typography>
               <Typography variant='body1'>{data.quantity}</Typography>
             </Grid>
-            {data.addedBy?.id && (
+            {data.addedBy?.name && (
               <Grid size={12}>
                 <Typography variant='subtitle2' color='textSecondary'>
                   Added By
                 </Typography>
-                <Typography variant='body1'>{data.addedBy.id}</Typography>
+                <Typography variant='body1'>{data.addedBy.name}</Typography>
               </Grid>
             )}
           </Grid>

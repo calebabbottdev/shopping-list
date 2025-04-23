@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 
 // API Connections
 import { useGetItemsQuery } from '../../../../app/features/items/items-api';
+import { useGetUsersQuery } from '../../users/users-api';
 import { useGetAuthenticatedUserQuery } from '../../users/users-api';
 
 // MUI
@@ -28,17 +29,28 @@ export const ItemsList = (): React.JSX.Element => {
     isLoading: isItemsLoading,
     error: itemsError,
   } = useGetItemsQuery();
-  const { data: user, isSuccess: userLoaded } = useGetAuthenticatedUserQuery();
+
+  const {
+    data: authenticatedUser,
+    isLoading: isUserLoading,
+    error: userError,
+  } = useGetAuthenticatedUserQuery();
+
+  const {
+    data: users,
+    // isLoading: isUsersLoading,
+    // error: usersError,
+  } = useGetUsersQuery();
 
   const [selectedUserId, setSelectedUserId] = useState<string>('all');
   const [dialogOpen, setDialogOpen] = useState(false);
   const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
 
   useEffect(() => {
-    if (userLoaded && user?.id && selectedUserId === 'all') {
-      setSelectedUserId(user.id);
+    if (!userError && authenticatedUser?.id && selectedUserId === 'all') {
+      setSelectedUserId(authenticatedUser.id);
     }
-  }, [userLoaded, user?.id]);
+  }, [isUserLoading, authenticatedUser?.id]);
 
   const handleUserChange = (event: SelectChangeEvent) => {
     setSelectedUserId(event.target.value);
@@ -53,10 +65,6 @@ export const ItemsList = (): React.JSX.Element => {
     setDialogOpen(false);
     setSelectedItemId(null);
   };
-
-  const uniqueUserIds = Array.from(
-    new Set(items?.items?.map((item) => item.addedBy.id))
-  );
 
   const filteredItems =
     selectedUserId === 'all'
@@ -93,9 +101,9 @@ export const ItemsList = (): React.JSX.Element => {
           onChange={handleUserChange}
         >
           <MenuItem value='all'>All users</MenuItem>
-          {uniqueUserIds.map((id) => (
-            <MenuItem key={id} value={id}>
-              {id === user?.id ? 'Me' : `User ID: ${id}`}
+          {users?.users.map((user) => (
+            <MenuItem key={user.id} value={user.id}>
+              {user.id === authenticatedUser?.id ? 'Me' : `User: ${user.name}`}
             </MenuItem>
           ))}
         </Select>
@@ -112,9 +120,9 @@ export const ItemsList = (): React.JSX.Element => {
             <ListItemText
               primary={item.name}
               secondary={`Quantity: ${item.quantity} • ${
-                item.addedBy.id === user?.id
+                item.addedBy.id === authenticatedUser?.id
                   ? 'Me'
-                  : `User ID: ${item.addedBy.id}`
+                  : `User: ${item.addedBy.name}`
               }`}
             />
           </ListItem>
