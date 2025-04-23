@@ -2,11 +2,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 
 // Slices
-import authReducer from '../features/auth/auth-slice';
+import authReducer from '../app/features/auth/auth-slice';
 
 // API Connections
-import { users } from '../features/users/users-api';
-import { items } from '../features/items/items-api';
+import { users } from '../app/features/users/users-api';
+import { items } from '../app/features/items/items-api';
 
 export const store = configureStore({
   reducer: {

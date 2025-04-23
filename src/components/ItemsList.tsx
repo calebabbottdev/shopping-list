@@ -1,4 +1,4 @@
-import { useGetItemsQuery } from '../features/items/items-api';
+import { useGetItemsQuery } from '../app/features/items/items-api';
 
 export const ItemsList = () => {
   const { data, isLoading, error } = useGetItemsQuery();

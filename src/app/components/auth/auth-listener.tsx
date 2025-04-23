@@ -7,7 +7,7 @@ import { login, logout, setUser } from '../../features/auth/auth-slice';
 
 // Firebase
 import { onAuthStateChanged } from 'firebase/auth';
-import { auth } from '../../firebase/firebase';
+import { auth } from '../../../utility/firebase';
 
 export const AuthListener: React.FC = () => {
   const dispatch = useDispatch();

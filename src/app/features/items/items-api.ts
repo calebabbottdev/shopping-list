@@ -5,7 +5,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { User } from '../users/users-api';
 
 // Firebase
-import { auth } from '../../firebase/firebase';
+import { auth } from '../../../utility/firebase';
 
 type Item = {
   id: string;

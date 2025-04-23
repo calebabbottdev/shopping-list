@@ -3,10 +3,10 @@ import { useState } from 'react';
 
 // Firebase
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../firebase/firebase';
+import { auth } from '../utility/firebase';
 
 // Layout
-import { Button } from './layout/button';
+import { Button } from '../app/layout/button';
 
 export const LoginForm = () => {
   const [email, setEmail] = useState('');

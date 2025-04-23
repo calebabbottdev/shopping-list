@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useCreateItemMutation } from '../features/items/items-api';
+import { useCreateItemMutation } from '../app/features/items/items-api';
 
 export const NewItemForm = () => {
   const [name, setName] = useState('');
