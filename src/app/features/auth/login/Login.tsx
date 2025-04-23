@@ -49,7 +49,7 @@ const Login = () => {
         onSubmit={handleSubmit(onSubmit)}
       >
         <Grid size={12}>
-          <Typography variant='h1' align='center'>
+          <Typography variant='h2' align='center'>
             Login
           </Typography>
         </Grid>

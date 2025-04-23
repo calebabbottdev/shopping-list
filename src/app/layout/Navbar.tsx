@@ -1,10 +1,10 @@
 import * as React from 'react';
 
 // MUI
-import { AppBar, Box, Button, Container, Toolbar } from '@mui/material';
+import { AppBar, Button, Container, Toolbar } from '@mui/material';
 
 // React Router
-import { Link, Outlet } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 // Routes
 import { route } from '../../routes/routes';
@@ -34,7 +34,6 @@ const Navbar = (): React.JSX.Element => {
           <Toolbar>
             {isAuthenticated ? (
               <>
-                <p>Welcome, {user?.name || 'Guest'}!</p>
                 <Button
                   color='inherit'
                   component={Link}
@@ -58,7 +57,6 @@ const Navbar = (): React.JSX.Element => {
           </Toolbar>
         </Container>
       </AppBar>
-      <Box id='outlet-container' children={<Outlet />} />
     </>
   );
 };

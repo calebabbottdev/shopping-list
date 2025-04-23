@@ -1,7 +1,9 @@
 // Components & Pages
+import Layout from '../app/layout/Layout';
 import Navbar from '../app/layout/Navbar';
 import Protected from '../app/components/auth/Protected';
 import Redirect from '../app/components/auth/Redirect';
+import Account from '../app/features/account/Account';
 import Home from '../app/features/home/Home';
 import Login from '../app/features/auth/login/Login';
 
@@ -14,6 +16,7 @@ import { createBrowserRouter } from 'react-router-dom';
 
 export enum route {
   home = '/',
+  account = '/account',
 
   // Auth
   login = '/login',
@@ -23,7 +26,7 @@ export enum route {
 export const router = createBrowserRouter([
   {
     path: route.home,
-    element: <Navbar />,
+    element: <Layout />,
     // errorElement: <Error />,
     children: [
       {
@@ -35,21 +38,29 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: route.login,
+        path: route.account,
         element: (
-          <Redirect>
-            <Login />
-          </Redirect>
-        ),
-      },
-      {
-        path: route.signup,
-        element: (
-          <Redirect>
-            <Home />
-          </Redirect>
+          <Protected>
+            <Account />
+          </Protected>
         ),
       },
     ],
+  },
+  {
+    path: route.login,
+    element: (
+      <Redirect>
+        <Login />
+      </Redirect>
+    ),
+  },
+  {
+    path: route.signup,
+    element: (
+      <Redirect>
+        <Home />
+      </Redirect>
+    ),
   },
 ]);
