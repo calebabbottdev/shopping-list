@@ -1,15 +1,32 @@
 // Redux
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
+// Firebase
+import { auth } from '../../../utility/firebase';
+
 export type User = {
   id: string;
   email: string;
   createdAt: string;
 };
 
+const baseQuery = fetchBaseQuery({
+  baseUrl: import.meta.env.VITE_API_BASE_URL,
+  prepareHeaders: async (headers) => {
+    const user = auth.currentUser;
+
+    if (user) {
+      const token = await user.getIdToken();
+      headers.set('authorization', `Bearer ${token}`);
+    }
+
+    return headers;
+  },
+});
+
 export const users = createApi({
   reducerPath: 'users',
-  baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.VITE_API_BASE_URL }),
+  baseQuery,
   endpoints: (builder) => ({
     getUsers: builder.query<{ users: User[] }, void>({
       query: () => '/users',
@@ -17,7 +34,14 @@ export const users = createApi({
     getUserById: builder.query<User, string>({
       query: (id) => `/users/${id}`,
     }),
+    getAuthenticatedUser: builder.query<User, void>({
+      query: () => `users/authenticated-user`,
+    }),
   }),
 });
 
-export const { useGetUsersQuery, useGetUserByIdQuery } = users;
+export const {
+  useGetUsersQuery,
+  useGetUserByIdQuery,
+  useGetAuthenticatedUserQuery,
+} = users;
