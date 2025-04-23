@@ -1,13 +1,15 @@
 // Components & Pages
 import Navbar from '../app/layout/Navbar';
+import Protected from '../app/components/auth/Protected';
+import Redirect from '../app/components/auth/Redirect';
+import Home from '../app/features/home/Home';
+import Login from '../app/features/auth/login/Login';
 
 // React Router
 import { createBrowserRouter } from 'react-router-dom';
 
 // Routes
 // import Error from '@features/error/Error';
-import Home from '../app/features/home/Home';
-// import Login from '@features/auth/login/Login';
 // import Signup from '@features/auth/signup/Signup';
 
 export enum route {
@@ -26,15 +28,27 @@ export const router = createBrowserRouter([
     children: [
       {
         path: route.home,
-        element: <Home />,
+        element: (
+          <Protected>
+            <Home />
+          </Protected>
+        ),
       },
       {
         path: route.login,
-        // element: <Login />,
+        element: (
+          <Redirect>
+            <Login />
+          </Redirect>
+        ),
       },
       {
-        path: route.login,
-        // element: <Home />,
+        path: route.signup,
+        element: (
+          <Redirect>
+            <Home />
+          </Redirect>
+        ),
       },
     ],
   },

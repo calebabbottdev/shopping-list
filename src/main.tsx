@@ -13,7 +13,7 @@ import { Provider } from 'react-redux';
 import { store } from './app/store';
 
 // Auth Listener
-import { AuthListener } from './app/components/auth/auth-listener';
+import Auth from './app/components/auth/Auth';
 
 // React Router
 import { RouterProvider } from 'react-router-dom';
@@ -24,7 +24,7 @@ import { router } from './routes/routes';
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <Provider store={store}>
-      <AuthListener />
+      <Auth />
       <RouterProvider router={router} />
     </Provider>
   </StrictMode>,

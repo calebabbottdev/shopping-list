@@ -1,3 +1,5 @@
+import * as React from 'react';
+
 // MUI
 import { AppBar, Box, Button, Container, Toolbar } from '@mui/material';
 
@@ -13,7 +15,10 @@ import { useSelector } from 'react-redux';
 // App Store
 import { RootState } from '../../app/store';
 
-const Navbar = () => {
+// Components
+import { Logout } from '../../components/Logout';
+
+const Navbar = (): React.JSX.Element => {
   const { user, isAuthenticated } = useSelector(
     (state: RootState) => state.auth,
   );
@@ -38,6 +43,7 @@ const Navbar = () => {
                 >
                   Home
                 </Button>
+                <Logout />
               </>
             ) : (
               <>

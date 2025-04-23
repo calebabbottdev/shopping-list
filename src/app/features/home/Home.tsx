@@ -1,5 +1,12 @@
+// Components
+import { Items } from './components/Items';
+
 const Home = () => {
-  return <p>Home</p>;
+  return (
+    <>
+      <Items />
+    </>
+  );
 };
 
 export default Home;

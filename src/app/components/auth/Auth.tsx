@@ -9,7 +9,7 @@ import { login, logout, setUser } from '../../features/auth/auth-slice';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../../../utility/firebase';
 
-export const AuthListener: React.FC = () => {
+const Auth: React.FC = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -30,3 +30,5 @@ export const AuthListener: React.FC = () => {
 
   return null;
 };
+
+export default Auth;
