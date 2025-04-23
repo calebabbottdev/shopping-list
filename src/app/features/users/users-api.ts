@@ -39,7 +39,7 @@ export const users = createApi({
       query: () => `users/authenticated-user`,
     }),
     updateUserName: builder.mutation<User, { id: string; name: string }>({
-      query: (id) => ({
+      query: ({ id, name }) => ({
         url: `/users/${id}/user-name`,
         method: 'PATCH',
         body: { name },

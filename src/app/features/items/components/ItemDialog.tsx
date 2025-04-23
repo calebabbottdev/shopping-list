@@ -9,10 +9,11 @@ import {
   CircularProgress,
   IconButton,
   DialogActions,
-  Button,
 } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
 import DeleteIcon from '@mui/icons-material/Delete';
+
+// Components
+import { Button } from '../../../layout/Button';
 
 // API Connections
 import {
@@ -47,18 +48,6 @@ const ItemDialog = ({
     <Dialog open={open} onClose={onClose} fullWidth maxWidth='xs'>
       <DialogTitle>
         Item Details
-        <IconButton
-          aria-label='close'
-          onClick={onClose}
-          sx={(theme) => ({
-            position: 'absolute',
-            right: 40,
-            top: 8,
-            color: theme.palette.grey[500],
-          })}
-        >
-          <CloseIcon />
-        </IconButton>
         <IconButton
           aria-label='delete'
           onClick={handleDelete}
@@ -108,9 +97,7 @@ const ItemDialog = ({
       </DialogContent>
 
       <DialogActions>
-        <Button onClick={onClose} color='primary'>
-          Close
-        </Button>
+        <Button text='Close' onClick={onClose} color='primary' />
       </DialogActions>
     </Dialog>
   );
