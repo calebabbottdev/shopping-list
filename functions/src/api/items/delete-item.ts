@@ -15,33 +15,29 @@ export const deleteItem = async (
   const { id } = request.params;
   const userId = request.user?.uid;
 
-  if (!userId) {
-    response.status(401).json({ error: 'Unauthorized: No user ID found' });
-    return;
-  }
+  if (!userId)
+    response.status(401).json({ error: 'Unauthorized: userId is missing' });
 
   try {
-    const itemRef = db.collection('items').doc(id);
-    const itemSnapshot = await itemRef.get();
+    const itemReference = db.collection('items').doc(id);
+    const itemSnapshot = await db.collection('items').doc(id).get();
 
-    if (!itemSnapshot.exists) {
-      response.status(404).json({ error: 'Item not found!' });
-      return;
-    }
+    if (!itemSnapshot.exists)
+      response
+        .status(404)
+        .json({ error: 'Not Found: Could not retrieve item' });
 
     const itemData = itemSnapshot.data();
 
-    if (itemData?.addedBy?.id !== userId) {
+    if (itemData?.addedBy?.id !== userId)
       response
         .status(403)
-        .json({ error: 'Forbidden: You do not own this item' });
-      return;
-    }
+        .json({ error: 'Forbidden: Items can only be deleted by the creater' });
 
-    await itemRef.delete();
-    response.status(200).json({ message: 'Item successfully deleted!' });
+    await itemReference.delete();
+
+    response.status(204);
   } catch (error) {
-    console.error('Error deleting item:', error);
-    response.status(500).json({ error: 'An error occurred!' });
+    response.status(500).json({ error: `Internal Server Error: ${error}` });
   }
 };

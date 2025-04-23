@@ -1,24 +1,26 @@
 import { getAuth } from 'firebase-admin/auth';
 
 export const authenticate = async (
-  req: any,
-  res: any,
+  request: any,
+  response: any,
   next: any
 ): Promise<void> => {
-  const authHeader = req.headers.authorization;
+  const authHeader = request.headers.authorization;
 
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return res.status(401).json({ error: 'Unauthorized: No token provided' });
-  }
+  if (!authHeader || !authHeader.startsWith('Bearer '))
+    return response
+      .status(401)
+      .json({ error: 'Unauthorized: No token provided' });
 
   const token = authHeader.split('Bearer ')[1];
 
   try {
     const decodedToken = await getAuth().verifyIdToken(token);
-    req.user = decodedToken;
+    request.user = decodedToken;
     next();
   } catch (error) {
-    console.error('Error verifying Firebase ID token:', error);
-    return res.status(401).json({ error: 'Unauthorized: Invalid token' });
+    return response
+      .status(401)
+      .json({ error: 'Unauthorized: Invalid token', details: error });
   }
 };

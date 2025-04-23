@@ -9,9 +9,10 @@ export const patchUserName = async (
   const { id } = request.params;
 
   try {
-    await db.collection('users').doc(id).update({ name });
-    response.status(200).json({ message: 'User updated successfully' });
+    await db.collection('users').doc(id).set({ name }, { merge: true });
+
+    response.status(204);
   } catch (error) {
-    response.status(500).json({ error: 'Unable to update user' });
+    response.status(500).json({ error: `Internal Server Error: ${error}` });
   }
 };

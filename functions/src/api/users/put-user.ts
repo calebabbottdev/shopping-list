@@ -19,15 +19,17 @@ export const putUser = async (
   const { name } = request.body;
   const userId = request.user?.uid;
 
-  if (!userId) {
-    response.status(401).json({ error: 'Unauthorized: No user ID found' });
-  }
+  if (!userId)
+    response.status(401).json({ error: 'Unauthorized: userId is missing' });
+
+  if (!(await db.collection('users').doc(userId!).get()))
+    response.status(404).json({ error: 'Not Found: Could not retrieve user' });
 
   try {
     await db.collection('users').doc(userId!).update({ name });
 
-    response.status(200).json({ message: 'User updated successfully' });
+    response.status(201);
   } catch (error) {
-    response.status(500).json({ error: 'Unable to update user' });
+    response.status(500).json({ error: `Internal Server Error: ${error}` });
   }
 };

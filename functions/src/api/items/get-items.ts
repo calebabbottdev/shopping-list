@@ -15,6 +15,6 @@ export const getItems = async (
 
     response.status(200).json({ items });
   } catch (error) {
-    response.status(500).json({ error: 'An error occured!' });
+    response.status(500).json({ error: `Internal Server Error: ${error}` });
   }
 };

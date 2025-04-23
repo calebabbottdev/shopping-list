@@ -10,12 +10,12 @@ export const getUser = async (
   try {
     const user = await db.collection('users').doc(id).get();
 
-    if (user.exists) {
-      response.status(200).json({ id: user.id, ...user.data() });
-    } else {
-      response.status(404).json({ error: 'User not found' });
-    }
+    if (user.exists) response.status(200).json({ id: user.id, ...user.data() });
+    else
+      response
+        .status(404)
+        .json({ error: 'Not Found: Could not retrieve user' });
   } catch (error) {
-    response.status(500).json({ error: 'Error fetching user' });
+    response.status(500).json({ error: `Internal Server Error: ${error}` });
   }
 };

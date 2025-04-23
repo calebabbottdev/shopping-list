@@ -14,14 +14,13 @@ interface AuthenticatedRequest extends Request {
 
 export const postItems = async (
   request: AuthenticatedRequest,
-  response: Response,
+  response: Response
 ): Promise<void> => {
   const { name, quantity } = request.body;
   const userId = request.user?.uid;
 
-  if (!userId) {
-    response.status(401).json({ error: 'Unauthorized: No user ID found' });
-  }
+  if (!userId)
+    response.status(401).json({ error: 'Unauthorized: userId is missing' });
 
   try {
     const user = (await db.collection('users').doc(userId!).get()).data();
@@ -32,8 +31,6 @@ export const postItems = async (
 
     response.status(201).json({ id: item.id });
   } catch (error) {
-    console.log('error:', error);
-    console.error('Error creating item:', error);
-    response.status(500).json({ error: 'Unable to create item' });
+    response.status(500).json({ error: `Internal Server Error: ${error}` });
   }
 };
