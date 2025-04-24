@@ -12,10 +12,12 @@ import { Button } from '../../../layout/Button';
 
 // React Hook Form
 import { useForm } from 'react-hook-form';
-import { route } from '../../../../routes/routes';
 
 // API Connections
 import { useLazyGetAuthenticatedUserQuery } from '../../users/users-api';
+
+// Routes
+import { route } from '../../../../routes/routes';
 
 type UserData = {
   email: string;
@@ -45,6 +47,8 @@ const Login = () => {
         await fetchUser();
         console.log(user);
       }
+
+      setError(null);
     } catch (error: any) {
       setError(error.message);
     }

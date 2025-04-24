@@ -14,7 +14,12 @@ import { Button } from '../../../layout/Button';
 import { useForm } from 'react-hook-form';
 
 // API Connections
-import { useUpdateUserNameMutation } from '../../users/users-api';
+import {
+  useLazyGetAuthenticatedUserQuery,
+  useUpdateUserNameMutation,
+} from '../../users/users-api';
+
+// Routes
 import { route } from '../../../../routes/routes';
 
 type SignUpData = {
@@ -24,9 +29,12 @@ type SignUpData = {
 };
 
 const Signup = () => {
-  const [updateUserName, { isLoading }] = useUpdateUserNameMutation();
-
   const [error, setError] = useState<string | null>(null);
+
+  const [fetchUser, { isLoading: isUserLoading }] =
+    useLazyGetAuthenticatedUserQuery();
+  const [updateUserName, { isLoading: isNameLoading }] =
+    useUpdateUserNameMutation();
 
   const {
     register,
@@ -38,11 +46,17 @@ const Signup = () => {
     const { name, email, password } = data;
 
     try {
-      const {
-        user: { uid },
-      } = await createUserWithEmailAndPassword(auth, email, password);
+      const { user } = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
 
-      await updateUserName({ id: uid, name });
+      if (user) {
+        await updateUserName({ id: user.uid, name });
+        await fetchUser();
+        console.log(user);
+      }
 
       setError(null);
     } catch (error: any) {
@@ -109,7 +123,7 @@ const Signup = () => {
             type='submit'
             variant='contained'
             color='primary'
-            disabled={isLoading}
+            disabled={isUserLoading || isNameLoading}
             fullWidth
           />
         </Grid>
