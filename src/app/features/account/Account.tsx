@@ -41,7 +41,7 @@ const Account = (): React.JSX.Element => {
   return (
     <>
       <Container maxWidth='md' sx={{ mt: 4 }}>
-        <Typography variant='h4' gutterBottom>
+        <Typography variant='h5' gutterBottom>
           Account Dashboard
         </Typography>
 
@@ -87,7 +87,42 @@ const Account = (): React.JSX.Element => {
                   Account Created
                 </Typography>
                 <Typography>
-                  {new Date(data.createdAt).toLocaleString()}
+                  {isNaN(new Date(data.createdAt).getTime())
+                    ? 'Right now'
+                    : new Date(data.createdAt).toLocaleString()}
+                </Typography>
+
+                <Typography
+                  variant='subtitle2'
+                  color='text.secondary'
+                  sx={{ mt: 2 }}
+                >
+                  Last Login
+                </Typography>
+                <Typography>
+                  {user?.metadata?.lastSignInTime
+                    ? new Date(user.metadata.lastSignInTime).toLocaleString()
+                    : 'Not available'}
+                </Typography>
+
+                <Typography
+                  variant='subtitle2'
+                  color='text.secondary'
+                  sx={{ mt: 2 }}
+                >
+                  Email Verified
+                </Typography>
+                <Typography>{user?.emailVerified ? 'Yes' : 'No'}</Typography>
+
+                <Typography
+                  variant='subtitle2'
+                  color='text.secondary'
+                  sx={{ mt: 2 }}
+                >
+                  Sign-in Provider
+                </Typography>
+                <Typography>
+                  {user?.providerData?.[0]?.providerId ?? 'Unknown'}
                 </Typography>
               </Box>
             </CardContent>

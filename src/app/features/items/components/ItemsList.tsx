@@ -72,6 +72,12 @@ export const ItemsList = (): React.JSX.Element => {
           selectedUserIds.includes(item.addedBy.id)
         );
 
+  const sortedUsers = users?.users.slice().sort((a, b) => {
+    if (a.id === authenticatedUser?.id) return -1;
+    if (b.id === authenticatedUser?.id) return 1;
+    return 0;
+  });
+
   if (isItemsLoading)
     return (
       <Box display='flex' justifyContent='center' mt={4}>
@@ -95,7 +101,7 @@ export const ItemsList = (): React.JSX.Element => {
       <FormControl component='fieldset' sx={{ mb: 2 }}>
         <FormLabel component='legend'>Filter by users</FormLabel>
         <FormGroup>
-          {users?.users.map((user) => (
+          {sortedUsers?.map((user) => (
             <FormControlLabel
               key={user.id}
               control={
