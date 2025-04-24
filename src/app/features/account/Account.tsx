@@ -104,7 +104,7 @@ const Account = (): React.JSX.Element => {
         <DialogTitle>Firebase Auth (Debug)</DialogTitle>
         <DialogContent>
           <pre style={{ whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
-            {JSON.stringify(user, null, 2)}
+            {JSON.stringify(auth, null, 2)}
           </pre>
         </DialogContent>
         <DialogActions>
