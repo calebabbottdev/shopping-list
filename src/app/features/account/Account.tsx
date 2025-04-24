@@ -1,5 +1,3 @@
-// Components
-
 // API Connections
 import { useGetAuthenticatedUserQuery } from '../users/users-api';
 

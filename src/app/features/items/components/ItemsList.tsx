@@ -2,8 +2,14 @@ import { useEffect, useState } from 'react';
 
 // API Connections
 import { useGetItemsQuery } from '../../../../app/features/items/items-api';
-import { useGetUsersQuery } from '../../users/users-api';
-import { useGetAuthenticatedUserQuery } from '../../users/users-api';
+import { useGetUsersQuery, User } from '../../users/users-api';
+
+// Redux
+import { RootState } from '../../../store';
+import { useSelector } from 'react-redux';
+
+// Components
+import ItemDialog from './ItemDialog';
 
 // MUI
 import {
@@ -21,7 +27,6 @@ import {
   Select,
   SelectChangeEvent,
 } from '@mui/material';
-import ItemDialog from './ItemDialog';
 
 export const ItemsList = (): React.JSX.Element => {
   const {
@@ -30,27 +35,22 @@ export const ItemsList = (): React.JSX.Element => {
     error: itemsError,
   } = useGetItemsQuery();
 
-  const {
-    data: authenticatedUser,
-    isLoading: isUserLoading,
-    error: userError,
-  } = useGetAuthenticatedUserQuery();
+  const authenticatedUser = useSelector(
+    (state: RootState) =>
+      state.users.queries['getAuthenticatedUser(undefined)']?.data
+  ) as User;
 
-  const {
-    data: users,
-    // isLoading: isUsersLoading,
-    // error: usersError,
-  } = useGetUsersQuery();
+  const { data: users } = useGetUsersQuery();
 
   const [selectedUserId, setSelectedUserId] = useState<string>('all');
   const [dialogOpen, setDialogOpen] = useState(false);
   const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!userError && authenticatedUser?.id && selectedUserId === 'all') {
+    if (authenticatedUser.id && selectedUserId === 'all') {
       setSelectedUserId(authenticatedUser.id);
     }
-  }, [isUserLoading, authenticatedUser?.id]);
+  }, [authenticatedUser.id]);
 
   const handleUserChange = (event: SelectChangeEvent) => {
     setSelectedUserId(event.target.value);
@@ -103,7 +103,7 @@ export const ItemsList = (): React.JSX.Element => {
           <MenuItem value='all'>All users</MenuItem>
           {users?.users.map((user) => (
             <MenuItem key={user.id} value={user.id}>
-              {user.id === authenticatedUser?.id ? 'Me' : `${user.name}`}
+              {user.id === authenticatedUser.id ? 'Me' : `${user.name}`}
             </MenuItem>
           ))}
         </Select>
@@ -120,7 +120,7 @@ export const ItemsList = (): React.JSX.Element => {
             <ListItemText
               primary={item.name}
               secondary={`Quantity: ${item.quantity} • ${
-                item.addedBy.id === authenticatedUser?.id
+                item.addedBy.id === authenticatedUser.id
                   ? 'Me'
                   : `${item.addedBy.name}`
               }`}
