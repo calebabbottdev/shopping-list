@@ -5,12 +5,12 @@ import { useGetItemsQuery } from '../../../../app/features/items/items-api';
 import {
   useGetAuthenticatedUserQuery,
   useGetUsersQuery,
-  User,
+  // User,
 } from '../../users/users-api';
 
 // Redux
-import { RootState } from '../../../store';
-import { useSelector } from 'react-redux';
+// import { RootState } from '../../../store';
+// import { useSelector } from 'react-redux';
 
 // Components
 import ItemDialog from './ItemDialog';
