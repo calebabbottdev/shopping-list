@@ -5,12 +5,7 @@ import { useGetItemsQuery } from '../../../../app/features/items/items-api';
 import {
   useGetAuthenticatedUserQuery,
   useGetUsersQuery,
-  // User,
 } from '../../users/users-api';
-
-// Redux
-// import { RootState } from '../../../store';
-// import { useSelector } from 'react-redux';
 
 // Components
 import ItemDialog from './ItemDialog';
@@ -26,10 +21,10 @@ import {
   Box,
   Alert,
   FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  SelectChangeEvent,
+  FormLabel,
+  FormGroup,
+  FormControlLabel,
+  Checkbox,
 } from '@mui/material';
 
 export const ItemsList = (): React.JSX.Element => {
@@ -42,23 +37,22 @@ export const ItemsList = (): React.JSX.Element => {
   const { data: authenticatedUser } = useGetAuthenticatedUserQuery();
   const { data: users } = useGetUsersQuery();
 
-  // const authenticatedUser = useSelector(
-  //   (state: RootState) =>
-  //     state.users.queries['getAuthenticatedUser(undefined)']?.data
-  // ) as User;
-
-  const [selectedUserId, setSelectedUserId] = useState<string>('all');
+  const [selectedUserIds, setSelectedUserIds] = useState<string[]>([]);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
 
   useEffect(() => {
-    if (authenticatedUser?.id && selectedUserId === 'all') {
-      setSelectedUserId(authenticatedUser?.id);
+    if (authenticatedUser?.id) {
+      setSelectedUserIds([authenticatedUser.id]);
     }
   }, [authenticatedUser?.id]);
 
-  const handleUserChange = (event: SelectChangeEvent) => {
-    setSelectedUserId(event.target.value);
+  const handleUserCheckboxChange = (userId: string) => {
+    setSelectedUserIds((previous) =>
+      previous.includes(userId)
+        ? previous.filter((id) => id !== userId)
+        : [...previous, userId]
+    );
   };
 
   const handleOpenDialog = (itemId: string): void => {
@@ -72,9 +66,11 @@ export const ItemsList = (): React.JSX.Element => {
   };
 
   const filteredItems =
-    selectedUserId === 'all'
+    selectedUserIds.length === 0
       ? items?.items
-      : items?.items?.filter((item) => item.addedBy.id === selectedUserId);
+      : items?.items?.filter((item) =>
+          selectedUserIds.includes(item.addedBy.id)
+        );
 
   if (isItemsLoading)
     return (
@@ -96,22 +92,22 @@ export const ItemsList = (): React.JSX.Element => {
         Items
       </Typography>
 
-      <FormControl fullWidth sx={{ mb: 2 }}>
-        <InputLabel id='user-filter-label'>Filter by user</InputLabel>
-        <Select
-          labelId='user-filter-label'
-          id='user-filter'
-          value={selectedUserId}
-          label='Filter by user'
-          onChange={handleUserChange}
-        >
-          <MenuItem value='all'>All users</MenuItem>
+      <FormControl component='fieldset' sx={{ mb: 2 }}>
+        <FormLabel component='legend'>Filter by users</FormLabel>
+        <FormGroup>
           {users?.users.map((user) => (
-            <MenuItem key={user.id} value={user.id}>
-              {user.id === authenticatedUser?.id ? 'Me' : `${user.name}`}
-            </MenuItem>
+            <FormControlLabel
+              key={user.id}
+              control={
+                <Checkbox
+                  checked={selectedUserIds.includes(user.id)}
+                  onChange={() => handleUserCheckboxChange(user.id)}
+                />
+              }
+              label={user.id === authenticatedUser?.id ? 'Me' : `${user.name}`}
+            />
           ))}
-        </Select>
+        </FormGroup>
       </FormControl>
 
       <List>
