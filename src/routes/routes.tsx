@@ -32,8 +32,6 @@ const loader = () => {
 export enum route {
   home = '/',
   account = '/account',
-
-  // Auth
   login = '/login',
   signup = '/signup',
 }

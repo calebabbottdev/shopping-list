@@ -13,7 +13,7 @@ import { Provider } from 'react-redux';
 import { store } from './app/store';
 
 // Auth Listener
-import Auth from './app/features/auth/Auth';
+// import Auth from './app/features/auth/Auth';
 
 // React Router
 import { RouterProvider } from 'react-router-dom';
@@ -25,7 +25,7 @@ import DebugDialog from './app/components/debug/DebugDialog';
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <Provider store={store}>
-      <Auth />
+      {/* <Auth /> */}
       <RouterProvider router={router} />
       <DebugDialog />
     </Provider>
