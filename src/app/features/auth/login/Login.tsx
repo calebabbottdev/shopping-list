@@ -15,10 +15,7 @@ import { useForm } from 'react-hook-form';
 import { route } from '../../../../routes/routes';
 
 // API Connections
-import {
-  useLazyGetAuthenticatedUserQuery,
-  useGetUserByIdQuery,
-} from '../../users/users-api';
+import { useLazyGetAuthenticatedUserQuery } from '../../users/users-api';
 
 type UserData = {
   email: string;
