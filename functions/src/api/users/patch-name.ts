@@ -9,9 +9,15 @@ export const patchName = async (
   const { id } = request.params;
 
   try {
-    await db.collection('users').doc(id).set({ name }, { merge: true });
+    const user = await db.collection('users').doc(id).get();
 
-    response.status(204);
+    if (user.exists) {
+      await db.collection('users').doc(id).update({ name });
+      response.status(204);
+    } else
+      response
+        .status(404)
+        .json({ error: 'Not Found: Could not retrieve user' });
   } catch (error) {
     response.status(500).json({ error: `Internal Server Error: ${error}` });
   }

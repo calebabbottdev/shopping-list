@@ -31,10 +31,11 @@ type SignUpData = {
 const Signup = () => {
   const [error, setError] = useState<string | null>(null);
 
-  const [fetchUser, { isLoading: isUserLoading }] =
-    useLazyGetAuthenticatedUserQuery();
   const [updateUserName, { isLoading: isNameLoading }] =
     useUpdateUserNameMutation();
+
+  const [fetchUser, { isLoading: isUserLoading }] =
+    useLazyGetAuthenticatedUserQuery();
 
   const {
     register,
