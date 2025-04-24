@@ -7,14 +7,22 @@ export const getUser = async (
 ): Promise<void> => {
   const { id } = request.params;
 
-  try {
-    const user = await db.collection('users').doc(id).get();
+  if (!id) {
+    response.status(400).json({ error: 'Bad Request: userId is missing' });
+    return;
+  }
 
-    if (user.exists) response.status(200).json({ id: user.id, ...user.data() });
-    else
+  try {
+    const userDoc = await db.collection('users').doc(id).get();
+
+    if (!userDoc.exists) {
       response
         .status(404)
         .json({ error: 'Not Found: Could not retrieve user' });
+      return;
+    }
+
+    response.status(200).json({ id: userDoc.id, ...userDoc.data() });
   } catch (error) {
     response.status(500).json({ error: `Internal Server Error: ${error}` });
   }

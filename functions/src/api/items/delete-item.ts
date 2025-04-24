@@ -15,28 +15,34 @@ export const deleteItem = async (
   const { id } = request.params;
   const userId = request.user?.uid;
 
-  if (!userId)
+  if (!userId) {
     response.status(401).json({ error: 'Unauthorized: userId is missing' });
+    return;
+  }
 
   try {
     const itemReference = db.collection('items').doc(id);
-    const itemSnapshot = await db.collection('items').doc(id).get();
+    const itemSnapshot = await itemReference.get();
 
-    if (!itemSnapshot.exists)
+    if (!itemSnapshot.exists) {
       response
         .status(404)
         .json({ error: 'Not Found: Could not retrieve item' });
+      return;
+    }
 
     const itemData = itemSnapshot.data();
 
-    if (itemData?.addedBy?.id !== userId)
+    if (itemData?.addedBy?.id !== userId) {
       response
         .status(403)
-        .json({ error: 'Forbidden: Items can only be deleted by the creater' });
+        .json({ error: 'Forbidden: Items can only be deleted by the creator' });
+      return;
+    }
 
     await itemReference.delete();
 
-    response.status(204);
+    response.status(204).send();
   } catch (error) {
     response.status(500).json({ error: `Internal Server Error: ${error}` });
   }

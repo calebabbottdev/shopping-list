@@ -9,18 +9,14 @@ export const patchName = async (
   const { id } = request.params;
 
   try {
-    const user = await db.collection('users').doc(id).get();
+    const userRef = db.collection('users').doc(id);
+    const user = await userRef.get();
 
     if (user.exists) {
-      await db.collection('users').doc(id).update({ name });
-
-      response.status(204);
+      await userRef.update({ name });
+      response.status(204).end();
     } else {
-      await db
-        .collection('users')
-        .doc(id)
-        .set({ name }, { mergeFields: ['name'] });
-
+      await userRef.set({ name }, { mergeFields: ['name'] });
       response.status(201).json({ id });
     }
   } catch (error) {

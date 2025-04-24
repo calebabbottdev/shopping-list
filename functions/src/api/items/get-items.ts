@@ -8,6 +8,11 @@ export const getItems = async (
   try {
     const itemsSnapshot = await db.collection('items').get();
 
+    if (itemsSnapshot.empty) {
+      response.status(200).json({ items: [] });
+      return;
+    }
+
     const items = itemsSnapshot.docs.map((item) => ({
       id: item.id,
       ...item.data(),

@@ -19,16 +19,24 @@ export const putUser = async (
   const { name } = request.body;
   const userId = request.user?.uid;
 
-  if (!userId)
+  if (!userId) {
     response.status(401).json({ error: 'Unauthorized: userId is missing' });
-
-  if (!(await db.collection('users').doc(userId!).get()))
-    response.status(404).json({ error: 'Not Found: Could not retrieve user' });
+    return;
+  }
 
   try {
-    await db.collection('users').doc(userId!).update({ name });
+    const userRef = db.collection('users').doc(userId);
+    const userSnapshot = await userRef.get();
 
-    response.status(201);
+    if (!userSnapshot.exists) {
+      response
+        .status(404)
+        .json({ error: 'Not Found: Could not retrieve user' });
+      return;
+    }
+
+    await userRef.update({ name });
+    response.status(204).end();
   } catch (error) {
     response.status(500).json({ error: `Internal Server Error: ${error}` });
   }

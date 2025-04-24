@@ -7,13 +7,20 @@ export const getItem = async (
 ): Promise<void> => {
   try {
     const { id } = request.params;
-    const item = await db.collection('items').doc(id).get();
 
-    if (item.exists) response.status(200).json({ id: item.id, ...item.data() });
-    else
+    const itemSnapshot = await db.collection('items').doc(id).get();
+
+    if (itemSnapshot.exists) {
+      response
+        .status(200)
+        .json({ id: itemSnapshot.id, ...itemSnapshot.data() });
+      return;
+    } else {
       response
         .status(404)
         .json({ error: 'Not Found: Could not retrieve item' });
+      return;
+    }
   } catch (error) {
     response.status(500).json({ error: `Internal Server Error: ${error}` });
   }

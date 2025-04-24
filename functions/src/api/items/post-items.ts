@@ -19,17 +19,26 @@ export const postItems = async (
   const { name, quantity } = request.body;
   const userId = request.user?.uid;
 
-  if (!userId)
+  if (!userId) {
     response.status(401).json({ error: 'Unauthorized: userId is missing' });
+    return;
+  }
 
   try {
-    const user = (await db.collection('users').doc(userId!).get()).data();
+    const userDoc = await db.collection('users').doc(userId).get();
 
-    const item = await db
+    if (!userDoc.exists) {
+      response.status(404).json({ error: 'User not found' });
+      return;
+    }
+
+    const user = userDoc.data();
+
+    const itemRef = await db
       .collection('items')
-      .add({ name, quantity, addedBy: user });
+      .add({ name, quantity, addedBy: { id: userId, ...user } });
 
-    response.status(201).json({ id: item.id });
+    response.status(201).json({ id: itemRef.id });
   } catch (error) {
     response.status(500).json({ error: `Internal Server Error: ${error}` });
   }

@@ -6,11 +6,16 @@ export const getUsers = async (
   response: Response
 ): Promise<void> => {
   try {
-    const userDocsSnapshot = await db.collection('users').get();
+    const snapshot = await db.collection('users').get();
 
-    const users = userDocsSnapshot.docs.map((user) => ({
-      id: user.id,
-      ...user.data(),
+    if (snapshot.empty) {
+      response.status(200).json({ users: [] });
+      return;
+    }
+
+    const users = snapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
     }));
 
     response.status(200).json({ users });
