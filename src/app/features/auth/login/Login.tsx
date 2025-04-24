@@ -38,7 +38,13 @@ const Login = () => {
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      await fetchUser();
+      const user = auth.currentUser;
+
+      if (user) {
+        await user.getIdToken();
+        await fetchUser();
+        console.log(user);
+      }
     } catch (error: any) {
       setError(error.message);
     }
