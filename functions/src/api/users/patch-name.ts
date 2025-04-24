@@ -13,11 +13,16 @@ export const patchName = async (
 
     if (user.exists) {
       await db.collection('users').doc(id).update({ name });
+
       response.status(204);
-    } else
-      response
-        .status(404)
-        .json({ error: 'Not Found: Could not retrieve user' });
+    } else {
+      await db
+        .collection('users')
+        .doc(id)
+        .set({ name }, { mergeFields: ['name'] });
+
+      response.status(201).json({ id });
+    }
   } catch (error) {
     response.status(500).json({ error: `Internal Server Error: ${error}` });
   }

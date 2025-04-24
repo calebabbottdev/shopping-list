@@ -120,7 +120,7 @@ const Signup = () => {
         <Grid size={12}>
           <Button
             id='signup-button'
-            text='Sign Up'
+            text='Signup'
             type='submit'
             variant='contained'
             color='primary'
