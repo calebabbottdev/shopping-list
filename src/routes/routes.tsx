@@ -5,8 +5,8 @@ import { CircularProgress, Box } from '@mui/material';
 
 // Components & Pages
 import Layout from '../app/layout/Layout';
-import Protected from '../app/components/auth/Protected';
-import Redirect from '../app/components/auth/Redirect';
+import Protected from '../app/features/auth/Protected';
+import Redirect from '../app/features/auth/Redirect';
 import Account from '../app/features/account/Account';
 import Home from '../app/features/home/Home';
 

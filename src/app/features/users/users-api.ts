@@ -52,6 +52,6 @@ export const {
   useGetUsersQuery,
   useGetUserByIdQuery,
   useGetAuthenticatedUserQuery,
-  useUpdateUserNameMutation,
   useLazyGetAuthenticatedUserQuery,
+  useUpdateUserNameMutation,
 } = users;

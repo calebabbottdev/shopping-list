@@ -1,5 +1,5 @@
 // API Connections
-import { useGetAuthenticatedUserQuery } from '../../features/users/users-api';
+import { useGetAuthenticatedUserQuery } from '../users/users-api';
 
 // React Router DOM
 import { Navigate } from 'react-router-dom';

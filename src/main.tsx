@@ -13,7 +13,7 @@ import { Provider } from 'react-redux';
 import { store } from './app/store';
 
 // Auth Listener
-import Auth from './app/components/auth/Auth';
+import Auth from './app/features/auth/Auth';
 
 // React Router
 import { RouterProvider } from 'react-router-dom';

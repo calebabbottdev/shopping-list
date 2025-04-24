@@ -6,7 +6,7 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../../../utility/firebase';
 
 // API Connections
-import { useLazyGetAuthenticatedUserQuery } from '../../features/users/users-api';
+import { useLazyGetAuthenticatedUserQuery } from '../users/users-api';
 
 const Auth: React.FC = (): null => {
   const [fetchUser] = useLazyGetAuthenticatedUserQuery();

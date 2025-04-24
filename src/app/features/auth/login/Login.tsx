@@ -15,7 +15,10 @@ import { useForm } from 'react-hook-form';
 import { route } from '../../../../routes/routes';
 
 // API Connections
-import { useGetAuthenticatedUserQuery } from '../../users/users-api';
+import {
+  useLazyGetAuthenticatedUserQuery,
+  useGetUserByIdQuery,
+} from '../../users/users-api';
 
 type UserData = {
   email: string;
@@ -25,7 +28,7 @@ type UserData = {
 const Login = () => {
   const [error, setError] = useState<string | null>(null);
 
-  const { isLoading } = useGetAuthenticatedUserQuery();
+  const [fetchUser, { isLoading }] = useLazyGetAuthenticatedUserQuery();
 
   const {
     register,
@@ -38,6 +41,7 @@ const Login = () => {
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
+      await fetchUser();
     } catch (error: any) {
       setError(error.message);
     }
