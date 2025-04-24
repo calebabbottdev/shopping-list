@@ -1,6 +1,5 @@
-// Redux
-import { useSelector } from 'react-redux';
-import { RootState } from '../../../app/store';
+// API Connections
+import { useGetAuthenticatedUserQuery } from '../../features/users/users-api';
 
 // React Router DOM
 import { Navigate, useLocation } from 'react-router-dom';
@@ -11,10 +10,10 @@ type Props = {
 };
 
 const Protected = ({ children }: Props): React.JSX.Element => {
-  const { isAuthenticated } = useSelector((state: RootState) => state.auth);
   const location = useLocation();
+  const { data, isLoading } = useGetAuthenticatedUserQuery();
 
-  if (!isAuthenticated) {
+  if (!data && !isLoading) {
     return <Navigate to={route.login} state={{ from: location }} replace />;
   }
 

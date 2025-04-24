@@ -21,7 +21,7 @@ const baseQuery = fetchBaseQuery({
 
     if (user) {
       const token = await user.getIdToken();
-      headers.set('authorization', `Bearer ${token}`);
+      headers.set('Authorization', `Bearer ${token}`);
     }
 
     return headers;

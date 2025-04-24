@@ -20,6 +20,7 @@ import {
   useGetItemByIdQuery,
   useDeleteItemMutation,
 } from '../../../../app/features/items/items-api';
+import { useGetAuthenticatedUserQuery } from '../../users/users-api';
 
 type ItemDialogProps = {
   id: string;
@@ -34,6 +35,7 @@ const ItemDialog = ({
 }: ItemDialogProps): React.JSX.Element => {
   const { data, isLoading } = useGetItemByIdQuery(id, { skip: !open });
   const [deleteItem, { isLoading: isDeleting }] = useDeleteItemMutation();
+  const { data: authenticatedUser } = useGetAuthenticatedUserQuery();
 
   const handleDelete = async () => {
     try {
@@ -48,19 +50,21 @@ const ItemDialog = ({
     <Dialog open={open} onClose={onClose} fullWidth maxWidth='xs'>
       <DialogTitle>
         Item Details
-        <IconButton
-          aria-label='delete'
-          onClick={handleDelete}
-          sx={(theme) => ({
-            position: 'absolute',
-            right: 8,
-            top: 8,
-            color: theme.palette.error.main,
-          })}
-          disabled={isDeleting}
-        >
-          <DeleteIcon />
-        </IconButton>
+        {authenticatedUser?.id === data?.addedBy.id && (
+          <IconButton
+            aria-label='delete'
+            onClick={handleDelete}
+            sx={(theme) => ({
+              position: 'absolute',
+              right: 8,
+              top: 8,
+              color: theme.palette.error.main,
+            })}
+            disabled={isDeleting}
+          >
+            <DeleteIcon />
+          </IconButton>
+        )}
       </DialogTitle>
 
       <DialogContent dividers>
@@ -82,7 +86,7 @@ const ItemDialog = ({
               </Typography>
               <Typography variant='body1'>{data.quantity}</Typography>
             </Grid>
-            {data.addedBy?.name && (
+            {data.addedBy.name && (
               <Grid size={12}>
                 <Typography variant='subtitle2' color='textSecondary'>
                   Added By

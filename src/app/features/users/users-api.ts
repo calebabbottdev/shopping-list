@@ -18,7 +18,7 @@ const baseQuery = fetchBaseQuery({
 
     if (user) {
       const token = await user.getIdToken();
-      headers.set('authorization', `Bearer ${token}`);
+      headers.set('Authorization', `Bearer ${token}`);
     }
 
     return headers;
@@ -36,7 +36,7 @@ export const users = createApi({
       query: (id) => `/users/${id}`,
     }),
     getAuthenticatedUser: builder.query<User, void>({
-      query: () => `users/authenticated-user`,
+      query: () => `/users/authenticated-user`,
     }),
     updateUserName: builder.mutation<User, { id: string; name: string }>({
       query: ({ id, name }) => ({
@@ -53,4 +53,5 @@ export const {
   useGetUserByIdQuery,
   useGetAuthenticatedUserQuery,
   useUpdateUserNameMutation,
+  useLazyGetAuthenticatedUserQuery,
 } = users;

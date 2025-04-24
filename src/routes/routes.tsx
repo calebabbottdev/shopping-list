@@ -48,7 +48,9 @@ export const router = createBrowserRouter([
         path: route.home,
         element: (
           <Protected>
-            <Home />
+            <Suspense fallback={loader()}>
+              <Home />
+            </Suspense>
           </Protected>
         ),
       },

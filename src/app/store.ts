@@ -1,16 +1,12 @@
 // Redux
 import { configureStore } from '@reduxjs/toolkit';
 
-// Slices
-import authReducer from '../app/features/auth/auth-slice';
-
 // API Connections
 import { users } from '../app/features/users/users-api';
 import { items } from '../app/features/items/items-api';
 
 export const store = configureStore({
   reducer: {
-    auth: authReducer,
     [users.reducerPath]: users.reducer,
     [items.reducerPath]: items.reducer,
   },

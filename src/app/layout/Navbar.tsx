@@ -1,17 +1,14 @@
 // MUI
 import { AppBar, Box, Container, Toolbar } from '@mui/material';
 
-// Redux
-import { useSelector } from 'react-redux';
-
-// App Store
-import { RootState } from '../../app/store';
+// API Connections
+import { useGetAuthenticatedUserQuery } from '../features/users/users-api';
 
 // Components
 import Logout from '../features/auth/logout/Logout';
 
 const Navbar = (): React.JSX.Element => {
-  const { isAuthenticated } = useSelector((state: RootState) => state.auth);
+  const { data, isLoading } = useGetAuthenticatedUserQuery();
 
   return (
     <>
@@ -22,7 +19,7 @@ const Navbar = (): React.JSX.Element => {
       >
         <Container maxWidth='xl'>
           <Toolbar sx={{ ml: 'auto' }}>
-            {isAuthenticated && (
+            {data && !isLoading && (
               <Box ml='auto'>
                 <Logout />
               </Box>

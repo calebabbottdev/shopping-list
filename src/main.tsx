@@ -20,12 +20,14 @@ import { RouterProvider } from 'react-router-dom';
 
 // Routes
 import { router } from './routes/routes';
+import DebugDialog from './app/components/debug/DebugDialog';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <Provider store={store}>
       <Auth />
       <RouterProvider router={router} />
+      <DebugDialog />
     </Provider>
-  </StrictMode>,
+  </StrictMode>
 );

@@ -38,6 +38,7 @@ const AddItem = ({ open, onClose }: AddItemProps): JSX.Element => {
     register,
     formState: { errors },
     handleSubmit,
+    reset,
   } = useForm<ItemData>();
 
   const onSubmit = async (data: ItemData) => {
@@ -45,6 +46,7 @@ const AddItem = ({ open, onClose }: AddItemProps): JSX.Element => {
 
     try {
       await createItem({ name, quantity }).unwrap();
+      reset();
       onClose();
     } catch (error: any) {
       setError(error?.message || 'Something went wrong');

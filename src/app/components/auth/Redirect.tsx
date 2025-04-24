@@ -1,6 +1,5 @@
-// Redux
-import { useSelector } from 'react-redux';
-import { RootState } from '../../../app/store';
+// API Connections
+import { useGetAuthenticatedUserQuery } from '../../features/users/users-api';
 
 // React Router DOM
 import { Navigate } from 'react-router-dom';
@@ -13,9 +12,9 @@ type Props = {
 };
 
 const Redirect = ({ children }: Props) => {
-  const { isAuthenticated } = useSelector((state: RootState) => state.auth);
+  const { data } = useGetAuthenticatedUserQuery();
 
-  return isAuthenticated ? <Navigate to={route.home} replace /> : children;
+  return data ? <Navigate to={route.home} replace /> : children;
 };
 
 export default Redirect;

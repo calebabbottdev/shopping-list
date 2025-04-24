@@ -14,6 +14,9 @@ import { Button } from '../../../layout/Button';
 import { useForm } from 'react-hook-form';
 import { route } from '../../../../routes/routes';
 
+// API Connections
+import { useGetAuthenticatedUserQuery } from '../../users/users-api';
+
 type UserData = {
   email: string;
   password: string;
@@ -21,6 +24,8 @@ type UserData = {
 
 const Login = () => {
   const [error, setError] = useState<string | null>(null);
+
+  const { isLoading } = useGetAuthenticatedUserQuery();
 
   const {
     register,
@@ -84,6 +89,7 @@ const Login = () => {
             type='submit'
             variant='contained'
             color='primary'
+            disabled={isLoading}
             fullWidth
           />
         </Grid>
