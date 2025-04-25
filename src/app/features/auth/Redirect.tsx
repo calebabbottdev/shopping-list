@@ -21,7 +21,7 @@ const Redirect = ({ children }: Props) => {
   }
 
   const storedRedirect = sessionStorage.getItem('redirectAfterLogin');
-  sessionStorage.removeItem('redirectAfterLogin');
+  // sessionStorage.removeItem('redirectAfterLogin');
 
   return <Navigate to={storedRedirect || route.home} replace />;
 };
