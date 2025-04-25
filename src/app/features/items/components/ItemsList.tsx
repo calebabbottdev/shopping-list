@@ -25,10 +25,6 @@ import {
   Typography,
 } from '@mui/material';
 
-// Swipeable List
-import { SwipeableList, Type as SwipeableListType } from 'react-swipeable-list';
-import 'react-swipeable-list/dist/styles.css';
-
 export const ItemsList = (): React.JSX.Element => {
   const {
     data: items,
@@ -117,18 +113,16 @@ export const ItemsList = (): React.JSX.Element => {
       )}
 
       {Array.isArray(filteredItems) && filteredItems.length > 0 ? (
-        <SwipeableList type={SwipeableListType.IOS}>
-          {filteredItems.map((item) => (
-            <ItemListRow
-              key={item.id}
-              item={item}
-              isMe={item.addedBy.id === authenticatedUser?.id}
-              onClick={handleOpenDialog}
-              onEdit={handleEdit} // optional
-              onDelete={handleDelete} // optional
-            />
-          ))}
-        </SwipeableList>
+        filteredItems.map((item) => (
+          <ItemListRow
+            key={item.id}
+            item={item}
+            isMe={item.addedBy.id === authenticatedUser?.id}
+            onClick={handleOpenDialog}
+            onEdit={handleEdit}
+            onDelete={handleDelete}
+          />
+        ))
       ) : (
         <Box mt={2}>
           <Alert severity='info'>No items were found.</Alert>

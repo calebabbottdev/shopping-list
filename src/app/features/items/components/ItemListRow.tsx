@@ -77,12 +77,13 @@ const ItemListRow = ({ item, isMe, onClick, onEdit, onDelete }: Props) => {
 
   return (
     <SwipeableListItem
+      threshold={0.5}
       leadingActions={leadingActions()}
       trailingActions={isMe ? trailingActions() : null}
     >
       <ListItem
         divider
-        component='button'
+        // component='button'
         onClick={() => onClick(item.id)}
         sx={{ textAlign: 'left' }}
       >
