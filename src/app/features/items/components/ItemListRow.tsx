@@ -1,5 +1,5 @@
+// React Swipeable
 import {
-  SwipeableList,
   SwipeableListItem,
   SwipeAction,
   TrailingActions,
@@ -7,6 +7,7 @@ import {
 } from 'react-swipeable-list';
 import 'react-swipeable-list/dist/styles.css';
 
+// MUI
 import {
   ListItem,
   ListItemText,
