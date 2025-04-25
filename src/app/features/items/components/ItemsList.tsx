@@ -1,7 +1,11 @@
+// React
 import { useEffect, useState } from 'react';
 
 // API Connections
-import { useGetItemsQuery } from '../../../../app/features/items/items-api';
+import {
+  useDeleteItemMutation,
+  useGetItemsQuery,
+} from '../../../../app/features/items/items-api';
 import {
   useGetAuthenticatedUserQuery,
   useGetUsersQuery,
@@ -10,6 +14,7 @@ import {
 // Components
 import ItemDialog from './ItemDialog';
 import UserFilterCheckboxes from './UserFilterCheckboxes';
+import ItemListRow from './ItemListRow';
 
 // MUI
 import {
@@ -17,22 +22,8 @@ import {
   Box,
   CircularProgress,
   Container,
-  // List,
-  ListItem,
-  ListItemText,
   Typography,
 } from '@mui/material';
-import { blue } from '@mui/material/colors';
-
-// React Swipeable
-import {
-  SwipeableList,
-  SwipeableListItem,
-  LeadingActions,
-  TrailingActions,
-  SwipeAction,
-} from 'react-swipeable-list';
-import 'react-swipeable-list/dist/styles.css';
 
 export const ItemsList = (): React.JSX.Element => {
   const {
@@ -43,6 +34,7 @@ export const ItemsList = (): React.JSX.Element => {
 
   const { data: authenticatedUser } = useGetAuthenticatedUserQuery();
   const { data: users } = useGetUsersQuery();
+  const [deleteItem] = useDeleteItemMutation();
 
   const [selectedUserIds, setSelectedUserIds] = useState<string[]>([]);
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -70,6 +62,16 @@ export const ItemsList = (): React.JSX.Element => {
   const handleCloseDialog = (): void => {
     setDialogOpen(false);
     setSelectedItemId(null);
+  };
+
+  const handleEdit = (id: string) => console.log('Edit item:', id);
+
+  const handleDelete = async (id: string) => {
+    try {
+      await deleteItem(id).unwrap();
+    } catch (err) {
+      console.error('Error deleting item:', err);
+    }
   };
 
   const filteredItems =
@@ -110,98 +112,17 @@ export const ItemsList = (): React.JSX.Element => {
         />
       )}
 
-      {/* {Array.isArray(filteredItems) && filteredItems.length > 0 ? (
-        <List>
-          {filteredItems.map((item) => (
-            <ListItem
-              key={item.id}
-              divider
-              component='button'
-              onClick={() => handleOpenDialog(item.id)}
-            >
-              <ListItemText
-                primary={item.name}
-                secondary={`Quantity: ${item.quantity} • ${
-                  item.addedBy.id === authenticatedUser?.id
-                    ? 'Me'
-                    : item.addedBy.name
-                }`}
-              />
-            </ListItem>
-          ))}
-        </List>
-      ) : (
-        <Box mt={2}>
-          <Alert severity='info'>No items were found.</Alert>
-        </Box>
-      )} */}
-
       {Array.isArray(filteredItems) && filteredItems.length > 0 ? (
-        <SwipeableList>
-          {filteredItems.map((item) => (
-            <SwipeableListItem
-              key={item.id}
-              leadingActions={
-                <LeadingActions>
-                  <SwipeAction onClick={() => console.log('Edit', item.id)}>
-                    <Box
-                      sx={{
-                        bgcolor: blue[500],
-                        color: 'white',
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        height: '100%',
-                        px: 2,
-                        fontWeight: 'bold',
-                      }}
-                    >
-                      Edit
-                    </Box>
-                  </SwipeAction>
-                </LeadingActions>
-              }
-              trailingActions={
-                <TrailingActions>
-                  <SwipeAction
-                    destructive
-                    onClick={() => console.log('Delete', item.id)}
-                  >
-                    <Box
-                      sx={{
-                        bgcolor: 'error.main',
-                        color: 'white',
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        height: '100%',
-                        px: 2,
-                        fontWeight: 'bold',
-                      }}
-                    >
-                      Delete
-                    </Box>
-                  </SwipeAction>
-                </TrailingActions>
-              }
-            >
-              <ListItem
-                divider
-                component='button'
-                onClick={() => handleOpenDialog(item.id)}
-              >
-                <ListItemText
-                  primary={item.name}
-                  secondary={`Quantity: ${item.quantity} • ${
-                    item.addedBy.id === authenticatedUser?.id
-                      ? 'Me'
-                      : item.addedBy.name
-                  }`}
-                />
-              </ListItem>
-            </SwipeableListItem>
-          ))}
-        </SwipeableList>
+        filteredItems.map((item) => (
+          <ItemListRow
+            key={item.id}
+            item={item}
+            isMe={item.addedBy.id === authenticatedUser?.id}
+            onClick={handleOpenDialog}
+            onEdit={handleEdit} // optional
+            onDelete={handleDelete} // optional
+          />
+        ))
       ) : (
         <Box mt={2}>
           <Alert severity='info'>No items were found.</Alert>
