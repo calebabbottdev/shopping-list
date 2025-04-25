@@ -121,10 +121,7 @@ export const ItemsList = (): React.JSX.Element => {
         </List>
       ) : (
         <Box mt={2}>
-          <Typography variant='body2' color='text.secondary'>
-            No items found.
-          </Typography>
-          <Alert severity='info'>No items matched the current filters.</Alert>
+          <Alert severity='info'>No items were found.</Alert>
         </Box>
       )}
 

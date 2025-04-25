@@ -19,9 +19,13 @@ import { RouterProvider } from 'react-router-dom';
 import { router } from './routes/routes';
 import DebugDialog from './app/components/debug/DebugDialog';
 
+// Auth
+import Auth from './app/features/auth/Auth';
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <Provider store={store}>
+      <Auth />
       <RouterProvider router={router} />
       <DebugDialog />
     </Provider>

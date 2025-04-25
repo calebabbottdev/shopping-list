@@ -99,6 +99,9 @@ const AddItem = ({ open, onClose }: AddItemProps): React.JSX.Element => {
             />
           </Grid>
           <Grid size={12}>
+            {error && <Alert severity='error'>{error}</Alert>}
+          </Grid>
+          <Grid size={12}>
             <Button
               id='add-item-button'
               text='Add item'
@@ -120,7 +123,6 @@ const AddItem = ({ open, onClose }: AddItemProps): React.JSX.Element => {
             />
           </Grid>
         </Grid>
-        {!error && <Alert severity='error'>{error}</Alert>}
       </DialogContent>
     </Dialog>
   );
