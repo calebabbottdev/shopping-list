@@ -23,6 +23,16 @@ import {
   Typography,
 } from '@mui/material';
 
+// React Swipeable
+import {
+  SwipeableList,
+  SwipeableListItem,
+  LeadingActions,
+  TrailingActions,
+  SwipeAction,
+} from 'react-swipeable-list';
+import 'react-swipeable-list/dist/styles.css';
+
 export const ItemsList = (): React.JSX.Element => {
   const {
     data: items,
@@ -124,6 +134,46 @@ export const ItemsList = (): React.JSX.Element => {
           <Alert severity='info'>No items were found.</Alert>
         </Box>
       )}
+
+      <SwipeableList>
+        {filteredItems?.map((item) => (
+          <SwipeableListItem
+            key={item.id}
+            leadingActions={
+              <LeadingActions>
+                <SwipeAction onClick={() => console.log('Edit', item.id)}>
+                  Edit
+                </SwipeAction>
+              </LeadingActions>
+            }
+            trailingActions={
+              <TrailingActions>
+                <SwipeAction
+                  destructive
+                  onClick={() => console.log('Delete', item.id)}
+                >
+                  Delete
+                </SwipeAction>
+              </TrailingActions>
+            }
+          >
+            <ListItem
+              divider
+              component='button'
+              onClick={() => handleOpenDialog(item.id)}
+            >
+              <ListItemText
+                primary={item.name}
+                secondary={`Quantity: ${item.quantity} • ${
+                  item.addedBy.id === authenticatedUser?.id
+                    ? 'Me'
+                    : item.addedBy.name
+                }`}
+              />
+            </ListItem>
+          </SwipeableListItem>
+        ))}
+      </SwipeableList>
 
       {selectedItemId && (
         <ItemDialog
