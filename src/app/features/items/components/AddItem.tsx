@@ -30,7 +30,7 @@ type ItemData = {
 };
 
 const AddItem = ({ open, onClose }: AddItemProps): React.JSX.Element => {
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<string>();
 
   const [createItem, { isLoading }] = useCreateItemMutation();
 
@@ -49,7 +49,7 @@ const AddItem = ({ open, onClose }: AddItemProps): React.JSX.Element => {
       reset();
       onClose();
     } catch (error: any) {
-      setError(error?.message || 'Something went wrong');
+      setError('There was an error adding your item. Please text Caleb.');
     }
   };
 
@@ -120,11 +120,7 @@ const AddItem = ({ open, onClose }: AddItemProps): React.JSX.Element => {
             />
           </Grid>
         </Grid>
-        {error === null && (
-          <Alert severity='error'>
-            There was an error adding your item. Please text Caleb.
-          </Alert>
-        )}
+        {!error && <Alert severity='error'>{error}</Alert>}
       </DialogContent>
     </Dialog>
   );

@@ -13,14 +13,14 @@ import UserFilterCheckboxes from './UserFilterCheckboxes';
 
 // MUI
 import {
+  Alert,
+  Box,
   CircularProgress,
+  Container,
   List,
   ListItem,
   ListItemText,
   Typography,
-  Container,
-  Box,
-  Alert,
 } from '@mui/material';
 
 export const ItemsList = (): React.JSX.Element => {
@@ -99,7 +99,7 @@ export const ItemsList = (): React.JSX.Element => {
         />
       )}
 
-      {filteredItems && filteredItems.length > 0 ? (
+      {Array.isArray(filteredItems) && filteredItems.length > 0 ? (
         <List>
           {filteredItems.map((item) => (
             <ListItem
@@ -120,12 +120,12 @@ export const ItemsList = (): React.JSX.Element => {
           ))}
         </List>
       ) : (
-        <>
+        <Box mt={2}>
           <Typography variant='body2' color='text.secondary'>
             No items found.
           </Typography>
-          <Alert severity='info'>No items found.</Alert>
-        </>
+          <Alert severity='info'>No items matched the current filters.</Alert>
+        </Box>
       )}
 
       {selectedItemId && (
