@@ -83,7 +83,7 @@ const ItemListRow = ({ item, isMe, onClick, onEdit, onDelete }: Props) => {
     >
       <ListItem
         divider
-        // component='button'
+        component='button'
         onClick={() => onClick(item.id)}
         sx={{ textAlign: 'left' }}
       >
