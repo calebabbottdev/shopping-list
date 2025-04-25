@@ -8,7 +8,7 @@ import { auth } from '../../../utility/firebase';
 import { useLazyGetAuthenticatedUserQuery } from '../users/users-api';
 
 // MUI
-import { Backdrop, CircularProgress } from '@mui/material';
+import { CircularProgress, Box } from '@mui/material';
 
 const Auth = () => {
   const [firebaseUser, setFirebaseUser] = useState<User | null | undefined>(
@@ -37,12 +37,14 @@ const Auth = () => {
 
   if (firebaseUser === undefined || (firebaseUser && isLoading)) {
     return (
-      <Backdrop
-        open={true}
-        sx={(theme) => ({ color: '#fff', zIndex: theme.zIndex.drawer + 1 })}
+      <Box
+        display='flex'
+        justifyContent='center'
+        alignItems='center'
+        height='100vh'
       >
-        <CircularProgress color='inherit' />
-      </Backdrop>
+        <CircularProgress />
+      </Box>
     );
   }
 
