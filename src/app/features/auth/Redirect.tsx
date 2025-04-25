@@ -8,6 +8,8 @@ type Props = {
 };
 
 const Redirect = ({ children }: Props) => {
+  sessionStorage.removeItem('redirectAfterLogin');
+
   const location = useLocation();
 
   const authenticatedUser = useSelector(
@@ -21,7 +23,6 @@ const Redirect = ({ children }: Props) => {
   }
 
   const storedRedirect = sessionStorage.getItem('redirectAfterLogin');
-  // sessionStorage.removeItem('redirectAfterLogin');
 
   return <Navigate to={storedRedirect || route.home} replace />;
 };
