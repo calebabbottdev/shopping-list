@@ -98,9 +98,9 @@ const AddItem = ({ open, onClose }: AddItemProps): React.JSX.Element => {
               }
             />
           </Grid>
-          <Grid size={12}>
-            {error && <Alert severity='error'>{error}</Alert>}
-          </Grid>
+          {error && (
+            <Grid size={12}>{<Alert severity='error'>{error}</Alert>}</Grid>
+          )}
           <Grid size={12}>
             <Button
               id='add-item-button'
