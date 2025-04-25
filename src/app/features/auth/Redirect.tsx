@@ -8,14 +8,18 @@ type Props = {
 };
 
 const Redirect = ({ children }: Props) => {
-  sessionStorage.removeItem('redirectAfterLogin');
-
   const location = useLocation();
 
-  const authenticatedUser = useSelector(
-    (state: RootState) =>
-      state.users.queries['getAuthenticatedUser(undefined)']?.data
+  const queryState = useSelector(
+    (state: RootState) => state.users.queries['getAuthenticatedUser(undefined)']
   );
+  const authenticatedUser = queryState?.data;
+  const isLoading = queryState?.status === 'pending';
+
+  if (isLoading) {
+    // Optional: Add a spinner here
+    return null;
+  }
 
   if (!authenticatedUser) {
     sessionStorage.setItem('redirectAfterLogin', location.pathname);
@@ -23,8 +27,12 @@ const Redirect = ({ children }: Props) => {
   }
 
   const storedRedirect = sessionStorage.getItem('redirectAfterLogin');
+  if (storedRedirect) {
+    sessionStorage.removeItem('redirectAfterLogin');
+    return <Navigate to={storedRedirect} replace />;
+  }
 
-  return <Navigate to={storedRedirect || route.home} replace />;
+  return <Navigate to={route.home} replace />;
 };
 
 export default Redirect;
