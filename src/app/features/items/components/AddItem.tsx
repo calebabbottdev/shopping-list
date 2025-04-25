@@ -1,13 +1,13 @@
-import { JSX, useState } from 'react';
+import { useState } from 'react';
 
 // MUI
 import {
+  Alert,
   Dialog,
   DialogTitle,
   DialogContent,
   Grid,
   TextField,
-  Box,
 } from '@mui/material';
 
 // API Connections
@@ -29,7 +29,7 @@ type ItemData = {
   quantity: number;
 };
 
-const AddItem = ({ open, onClose }: AddItemProps): JSX.Element => {
+const AddItem = ({ open, onClose }: AddItemProps): React.JSX.Element => {
   const [error, setError] = useState<string | null>(null);
 
   const [createItem, { isLoading }] = useCreateItemMutation();
@@ -120,7 +120,11 @@ const AddItem = ({ open, onClose }: AddItemProps): JSX.Element => {
             />
           </Grid>
         </Grid>
-        {error !== null && <Box id='error'>{error}</Box>}
+        {error === null && (
+          <Alert severity='error'>
+            There was an error adding your item. Please text Caleb.
+          </Alert>
+        )}
       </DialogContent>
     </Dialog>
   );

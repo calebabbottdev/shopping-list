@@ -9,6 +9,7 @@ import {
 
 // Components
 import ItemDialog from './ItemDialog';
+import UserFilterCheckboxes from './UserFilterCheckboxes';
 
 // MUI
 import {
@@ -20,11 +21,6 @@ import {
   Container,
   Box,
   Alert,
-  FormControl,
-  FormLabel,
-  FormGroup,
-  FormControlLabel,
-  Checkbox,
 } from '@mui/material';
 
 export const ItemsList = (): React.JSX.Element => {
@@ -72,12 +68,6 @@ export const ItemsList = (): React.JSX.Element => {
           selectedUserIds.includes(item.addedBy.id)
         );
 
-  const sortedUsers = users?.users.slice().sort((a, b) => {
-    if (a.id === authenticatedUser?.id) return -1;
-    if (b.id === authenticatedUser?.id) return 1;
-    return 0;
-  });
-
   if (isItemsLoading)
     return (
       <Box display='flex' justifyContent='center' mt={4}>
@@ -88,7 +78,9 @@ export const ItemsList = (): React.JSX.Element => {
   if (itemsError)
     return (
       <Container maxWidth='sm'>
-        <Alert severity='error'>Error loading items</Alert>
+        <Alert severity='error'>
+          There was an error loading items. Please text Caleb.
+        </Alert>
       </Container>
     );
 
@@ -98,43 +90,43 @@ export const ItemsList = (): React.JSX.Element => {
         Items
       </Typography>
 
-      <FormControl component='fieldset' sx={{ mb: 2 }}>
-        <FormLabel component='legend'>Filter by users</FormLabel>
-        <FormGroup>
-          {sortedUsers?.map((user) => (
-            <FormControlLabel
-              key={user.id}
-              control={
-                <Checkbox
-                  checked={selectedUserIds.includes(user.id)}
-                  onChange={() => handleUserCheckboxChange(user.id)}
-                />
-              }
-              label={user.id === authenticatedUser?.id ? 'Me' : `${user.name}`}
-            />
-          ))}
-        </FormGroup>
-      </FormControl>
+      {users?.users && (
+        <UserFilterCheckboxes
+          users={users.users}
+          authenticatedUserId={authenticatedUser?.id}
+          selectedUserIds={selectedUserIds}
+          onChange={handleUserCheckboxChange}
+        />
+      )}
 
-      <List>
-        {filteredItems?.map((item) => (
-          <ListItem
-            key={item.id}
-            divider
-            component='button'
-            onClick={() => handleOpenDialog(item.id)}
-          >
-            <ListItemText
-              primary={item.name}
-              secondary={`Quantity: ${item.quantity} • ${
-                item.addedBy.id === authenticatedUser?.id
-                  ? 'Me'
-                  : `${item.addedBy.name}`
-              }`}
-            />
-          </ListItem>
-        ))}
-      </List>
+      {filteredItems && filteredItems.length > 0 ? (
+        <List>
+          {filteredItems.map((item) => (
+            <ListItem
+              key={item.id}
+              divider
+              component='button'
+              onClick={() => handleOpenDialog(item.id)}
+            >
+              <ListItemText
+                primary={item.name}
+                secondary={`Quantity: ${item.quantity} • ${
+                  item.addedBy.id === authenticatedUser?.id
+                    ? 'Me'
+                    : item.addedBy.name
+                }`}
+              />
+            </ListItem>
+          ))}
+        </List>
+      ) : (
+        <>
+          <Typography variant='body2' color='text.secondary'>
+            No items found.
+          </Typography>
+          <Alert severity='info'>No items found.</Alert>
+        </>
+      )}
 
       {selectedItemId && (
         <ItemDialog

@@ -75,6 +75,7 @@ const Account = (): React.JSX.Element => {
                 <Typography variant='subtitle2' color='text.secondary'>
                   User ID
                 </Typography>
+
                 <Typography sx={{ wordBreak: 'break-all' }}>
                   {data.id}
                 </Typography>
@@ -86,6 +87,7 @@ const Account = (): React.JSX.Element => {
                 >
                   Account Created
                 </Typography>
+
                 <Typography>
                   {isNaN(new Date(data.createdAt).getTime())
                     ? 'Right now'
@@ -99,6 +101,7 @@ const Account = (): React.JSX.Element => {
                 >
                   Last Login
                 </Typography>
+
                 <Typography>
                   {user?.metadata?.lastSignInTime
                     ? new Date(user.metadata.lastSignInTime).toLocaleString()
@@ -112,6 +115,7 @@ const Account = (): React.JSX.Element => {
                 >
                   Email Verified
                 </Typography>
+
                 <Typography>{user?.emailVerified ? 'Yes' : 'No'}</Typography>
 
                 <Typography
@@ -121,6 +125,7 @@ const Account = (): React.JSX.Element => {
                 >
                   Sign-in Provider
                 </Typography>
+
                 <Typography>
                   {user?.providerData?.[0]?.providerId ?? 'Unknown'}
                 </Typography>
