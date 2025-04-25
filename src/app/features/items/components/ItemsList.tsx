@@ -26,11 +26,7 @@ import {
 } from '@mui/material';
 
 // Swipeable List
-import {
-  SwipeableList,
-  SwipeableListItem,
-  Type as SwipeableListType,
-} from 'react-swipeable-list';
+import { SwipeableList, Type as SwipeableListType } from 'react-swipeable-list';
 import 'react-swipeable-list/dist/styles.css';
 
 export const ItemsList = (): React.JSX.Element => {
