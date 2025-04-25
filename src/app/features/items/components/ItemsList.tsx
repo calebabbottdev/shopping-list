@@ -17,11 +17,12 @@ import {
   Box,
   CircularProgress,
   Container,
-  List,
+  // List,
   ListItem,
   ListItemText,
   Typography,
 } from '@mui/material';
+import { blue } from '@mui/material/colors';
 
 // React Swipeable
 import {
@@ -109,7 +110,7 @@ export const ItemsList = (): React.JSX.Element => {
         />
       )}
 
-      {Array.isArray(filteredItems) && filteredItems.length > 0 ? (
+      {/* {Array.isArray(filteredItems) && filteredItems.length > 0 ? (
         <List>
           {filteredItems.map((item) => (
             <ListItem
@@ -133,47 +134,79 @@ export const ItemsList = (): React.JSX.Element => {
         <Box mt={2}>
           <Alert severity='info'>No items were found.</Alert>
         </Box>
-      )}
+      )} */}
 
-      <SwipeableList>
-        {filteredItems?.map((item) => (
-          <SwipeableListItem
-            key={item.id}
-            leadingActions={
-              <LeadingActions>
-                <SwipeAction onClick={() => console.log('Edit', item.id)}>
-                  Edit
-                </SwipeAction>
-              </LeadingActions>
-            }
-            trailingActions={
-              <TrailingActions>
-                <SwipeAction
-                  destructive
-                  onClick={() => console.log('Delete', item.id)}
-                >
-                  Delete
-                </SwipeAction>
-              </TrailingActions>
-            }
-          >
-            <ListItem
-              divider
-              component='button'
-              onClick={() => handleOpenDialog(item.id)}
+      {Array.isArray(filteredItems) && filteredItems.length > 0 ? (
+        <SwipeableList>
+          {filteredItems.map((item) => (
+            <SwipeableListItem
+              key={item.id}
+              leadingActions={
+                <LeadingActions>
+                  <SwipeAction onClick={() => console.log('Edit', item.id)}>
+                    <Box
+                      sx={{
+                        bgcolor: blue[500],
+                        color: 'white',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        height: '100%',
+                        px: 2,
+                        fontWeight: 'bold',
+                      }}
+                    >
+                      Edit
+                    </Box>
+                  </SwipeAction>
+                </LeadingActions>
+              }
+              trailingActions={
+                <TrailingActions>
+                  <SwipeAction
+                    destructive
+                    onClick={() => console.log('Delete', item.id)}
+                  >
+                    <Box
+                      sx={{
+                        bgcolor: 'error.main',
+                        color: 'white',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        height: '100%',
+                        px: 2,
+                        fontWeight: 'bold',
+                      }}
+                    >
+                      Delete
+                    </Box>
+                  </SwipeAction>
+                </TrailingActions>
+              }
             >
-              <ListItemText
-                primary={item.name}
-                secondary={`Quantity: ${item.quantity} • ${
-                  item.addedBy.id === authenticatedUser?.id
-                    ? 'Me'
-                    : item.addedBy.name
-                }`}
-              />
-            </ListItem>
-          </SwipeableListItem>
-        ))}
-      </SwipeableList>
+              <ListItem
+                divider
+                component='button'
+                onClick={() => handleOpenDialog(item.id)}
+              >
+                <ListItemText
+                  primary={item.name}
+                  secondary={`Quantity: ${item.quantity} • ${
+                    item.addedBy.id === authenticatedUser?.id
+                      ? 'Me'
+                      : item.addedBy.name
+                  }`}
+                />
+              </ListItem>
+            </SwipeableListItem>
+          ))}
+        </SwipeableList>
+      ) : (
+        <Box mt={2}>
+          <Alert severity='info'>No items were found.</Alert>
+        </Box>
+      )}
 
       {selectedItemId && (
         <ItemDialog
